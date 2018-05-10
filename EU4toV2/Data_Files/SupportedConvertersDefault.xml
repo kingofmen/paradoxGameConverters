@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!--
 Explanation: TODO:
@@ -295,7 +295,7 @@ tag vs internalTag:
           <alternatives>
             <alternative>
               <defaultLocationType>WindowsUsersFolder</defaultLocationType>
-              <subFolderLocation>Paradox Interactive\Europa Universalis IV\save games</subFolderLocation>
+              <subFolderLocation>Paradox Interactive\Europa Universalis IV\save games\ODAOP_1797_end.eu4</subFolderLocation>
             </alternative>
           </alternatives>
         </requiredFile>
