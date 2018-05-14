@@ -85,8 +85,8 @@
             <friendlyName>Liberty threshold</friendlyName>
             <description>The threshold value for when colonies are not absorbed. Default 100% (colonies always absorbed)</description>
             <hasDirectlyEditableValue>true</hasDirectlyEditableValue>
-            <value>100</value>
-            <minValue>1</minValue>
+            <value>0</value>
+            <minValue>0</minValue>
             <maxValue>100</maxValue>
           </preference>
           <preference>
