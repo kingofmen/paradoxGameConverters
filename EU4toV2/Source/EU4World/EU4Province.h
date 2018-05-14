@@ -84,7 +84,7 @@ class EU4Province {
 		string					getTradeGoods() const { return tradeGoods; }
 
 	private:
-		void	checkBuilding(const Object* provinceObj, string building);
+		void	checkBuilding(Object* provinceObj, string building);
 		void	buildPopRatios();
 		void	decayPopRatios(date oldDate, date newDate, EU4PopRatio& currentPop);
 
