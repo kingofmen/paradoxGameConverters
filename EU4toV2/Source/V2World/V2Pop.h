@@ -52,7 +52,7 @@ class V2Pop
 		string	getCulture()						const	{ return culture; }
 		string	getReligion()						const	{ return religion; }
 		int		getSupportedRegimentCount()	const	{ return supportedRegiments; }
-		bool isSlavePop() const { return ((type == "slaves") || (culture.substr(0, 4) == "afro")); }
+		bool isSlavePop() const { return (type == "slaves"); }
 
 	private:
 		string	type;
