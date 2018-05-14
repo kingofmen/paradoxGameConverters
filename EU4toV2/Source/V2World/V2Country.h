@@ -114,6 +114,7 @@ class V2Country
 		int								getNumFactories() const { return numFactories; }
 
 		string							getReligion() const { return religion; }
+		string							tagAndName() { return tag + " " + getLocalName(); }
 
 	private:
 		Object* parseCountryFile(const string& filename);
