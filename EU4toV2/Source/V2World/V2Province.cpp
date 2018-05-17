@@ -439,11 +439,6 @@ void V2Province::doCreatePops(double popWeightRatio, V2Country* _owner, int popC
 		pops.push_back(minorityItr);
 	}
 	combinePops();
-        int total = 0;
-        for (auto* pop : pops) {
-          total += pop->getSize();
-        }
-        LOG(LogLevel::Info) << "Name: " << this->getSrcProvince()->getProvName() << " -> " << getName() << " " << getNum() << " owner " << _owner->tagAndName() << " total " << total;
 }
 
 // each "point" here represents 0.01% (1 / 10 000) population of this culture-religion pair
@@ -778,16 +773,19 @@ V2Province::pop_points V2Province::getPopPoints_2(const V2Demographic& demograph
 void V2Province::createPops(const V2Demographic& demographic, double popWeightRatio, const V2Country* _owner, int popConversionAlgorithm)
 {
 	const EU4Province*	oldProvince = demographic.oldProvince;
-	const EU4Country*		oldCountry = demographic.oldCountry;
+	const EU4Country*	oldCountry = demographic.oldCountry;
 
 	long newPopulation = 0;
 	if (Configuration::getConvertPopTotals())
 	{
-		newPopulation = ((double)this->lifeRating / 10)*static_cast<long>(popWeightRatio * oldProvince->getTotalWeight());
+                // Don't use life rating here.
+		newPopulation = 3.5*static_cast<long>(popWeightRatio * oldProvince->getTotalWeight());
 
 		int numOfV2Provs = srcProvince->getNumDestV2Provs();
 		if (numOfV2Provs > 1)
 		{
+                  newPopulation /= numOfV2Provs;
+                  /*
 			if (numOfV2Provs == 2)
 			{
 				newPopulation /= numOfV2Provs;
@@ -798,6 +796,7 @@ void V2Province::createPops(const V2Demographic& demographic, double popWeightRa
 				newPopulation /= numOfV2Provs;
 				newPopulation = static_cast<long>(newPopulation * 1.15);
 			}
+                  */
 		}
 	}
 	else
@@ -824,7 +823,6 @@ void V2Province::createPops(const V2Demographic& demographic, double popWeightRa
 		pts.capitalists = 0;
 		pts.clerks = 0;
 		pts.craftsmen = 0;
-
 		pts.bureaucrats -= 5;
 	}
 
@@ -853,42 +851,49 @@ void V2Province::createPops(const V2Demographic& demographic, double popWeightRa
 	if (pts.artisans > 0)
 	{
 		int size = static_cast<int>(demographic.middleRatio * newPopulation * (pts.artisans / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* artisansPop = new V2Pop("artisans", size, demographic.culture, demographic.religion);
 		pops.push_back(artisansPop);
 	}
 	if (pts.clergymen > 0)
 	{
 		int size = static_cast<int>(demographic.middleRatio * newPopulation * (pts.clergymen / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* clergymenPop = new V2Pop("clergymen", size, demographic.culture, demographic.religion);
 		pops.push_back(clergymenPop);
 	}
 	if (pts.clerks > 0)
 	{
 		int size = static_cast<int>(demographic.middleRatio * newPopulation * (pts.clerks / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* clerksPop = new V2Pop("clerks", size, demographic.culture, demographic.religion);
 		pops.push_back(clerksPop);
 	}
 	if (pts.bureaucrats > 0)
 	{
 		int size = static_cast<int>(demographic.middleRatio * newPopulation * (pts.bureaucrats / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* bureaucratsPop = new V2Pop("bureaucrats", size, demographic.culture, demographic.religion);
 		pops.push_back(bureaucratsPop);
 	}
 	if (pts.officers > 0)
 	{
 		int size = static_cast<int>(demographic.middleRatio * newPopulation * (pts.officers / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* officersPop = new V2Pop("officers", size, demographic.culture, demographic.religion);
 		pops.push_back(officersPop);
 	}
 	if (pts.capitalists > 0)
 	{
 		int size = static_cast<int>(demographic.upperRatio * newPopulation * (pts.capitalists / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* capitalistsPop = new V2Pop("capitalists", size, demographic.culture, demographic.religion);
 		pops.push_back(capitalistsPop);
 	}
 	if (pts.aristocrats > 0)
 	{
 		int size = static_cast<int>(demographic.upperRatio * newPopulation * (pts.aristocrats / 10000) + 0.5);
+                farmers -= size;
 		V2Pop* aristocratsPop = new V2Pop("aristocrats", size, demographic.culture, demographic.religion);
 		pops.push_back(aristocratsPop);
 	}
