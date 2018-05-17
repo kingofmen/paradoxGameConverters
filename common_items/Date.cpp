@@ -49,7 +49,7 @@ date::date(string _init)
 		month						= stoi( _init.substr(first_dot + 1, last_dot - first_dot) );
 		day						= stoi( _init.substr(last_dot + 1, 2) );
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		year = 0;
 		month = 0;
