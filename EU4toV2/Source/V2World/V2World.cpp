@@ -795,7 +795,7 @@ void V2World::convertProvinces(const EU4World& sourceWorld)
 					}
 
 					// set forts and naval bases
-					if ((*vitr)->hasBuilding("fort4") || (*vitr)->hasBuilding("fort5") || (*vitr)->hasBuilding("fort6"))
+					if ((*vitr)->hasBuilding("fort_18th") || (*vitr)->hasBuilding("fort4") || (*vitr)->hasBuilding("fort5") || (*vitr)->hasBuilding("fort6"))
 					{
 						Vic2Province.second->setFortLevel(1);
 					}
