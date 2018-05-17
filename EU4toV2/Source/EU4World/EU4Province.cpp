@@ -218,7 +218,9 @@ EU4Province::EU4Province(Object* obj)
 		}
 	}
 
-	//LOG(LogLevel::Info) << "Check unique Buildings...";
+        territory = !obj->getValue("territorial_core").empty();
+
+        //LOG(LogLevel::Info) << "Check unique Buildings...";
 	// unique buildings
 	checkBuilding(obj, "march");
 	checkBuilding(obj, "glorious_monument");
@@ -284,7 +286,13 @@ EU4Province::EU4Province(Object* obj)
 	checkBuilding(obj, "road_network");
 	checkBuilding(obj, "post_office");
 
-	buildPopRatios();
+        checkBuilding(obj, "center_of_trade_modifier");
+        checkBuilding(obj, "stora_kopparberget_modifier");
+        checkBuilding(obj, "spice_islands_modifier");
+        checkBuilding(obj, "inland_center_of_trade_modifier");
+
+
+        buildPopRatios();
 }
 
 
@@ -416,10 +424,16 @@ void EU4Province::checkBuilding(Object* provinceObj, string building)
 		if (buildingObj && buildingObj->safeGetString(building) == "yes")
                 {
 		      buildings[building] = true;
-		}
+		} else {
+                  auto modifiers = provinceObj->getValue("modifier");
+                  for (auto* mod : modifiers) {
+                    if (mod->safeGetString("modifier") == building) {
+		      buildings[building] = true;
+                    }
+                  }
+                }
         }
 }
-
 
 void EU4Province::buildPopRatios()
 {
@@ -487,7 +501,7 @@ void EU4Province::buildPopRatios()
 		{
 			decayPopRatios(lastLoopDate, cDate, pr);
 			popRatios.push_back(pr);
-			for (auto itr: popRatios)
+			for (auto& itr: popRatios)
 			{
 				itr.upperPopRatio		/= 2.0;
 				itr.middlePopRatio	/= 2.0;
@@ -504,7 +518,7 @@ void EU4Province::buildPopRatios()
 			// culture and religion change on the same day;
 			decayPopRatios(lastLoopDate, cDate, pr);
 			popRatios.push_back(pr);
-			for (auto itr: popRatios)
+			for (auto& itr: popRatios)
 			{
 				itr.upperPopRatio		/= 2.0;
 				itr.middlePopRatio	/= 2.0;
@@ -520,9 +534,9 @@ void EU4Province::buildPopRatios()
 		}
 		else if (rDate < cDate)
 		{
-			decayPopRatios(lastLoopDate, cDate, pr);
+			decayPopRatios(lastLoopDate, rDate, pr);
 			popRatios.push_back(pr);
-			for (auto itr: popRatios)
+			for (auto& itr: popRatios)
 			{
 				itr.upperPopRatio		/= 2.0;
 				itr.middlePopRatio	/= 2.0;
@@ -541,6 +555,24 @@ void EU4Province::buildPopRatios()
 	{
 		popRatios.push_back(pr);
 	}
+
+        // Normalise so the ratios add to one.
+        EU4PopRatio totals;
+        totals.upperPopRatio  = 0;
+        totals.middlePopRatio = 0;
+        totals.lowerPopRatio  = 0;
+        for (const auto& itr: popRatios)
+        {
+        	totals.upperPopRatio  += itr.upperPopRatio;
+        	totals.middlePopRatio += itr.middlePopRatio;
+                totals.lowerPopRatio  += itr.lowerPopRatio;
+        }
+        for (auto& itr: popRatios)
+        {
+        	itr.upperPopRatio  /= totals.upperPopRatio;
+        	itr.middlePopRatio /= totals.middlePopRatio;
+                itr.lowerPopRatio  /= totals.lowerPopRatio;
+        }         
 }
 
 
@@ -565,7 +597,7 @@ void	EU4Province::decayPopRatios(date oldDate, date newDate, EU4PopRatio& curren
 	for (auto itr: popRatios)
 	{
 		itr.upperPopRatio		-= .0025 * (newDate.year - oldDate.year) * itr.upperPopRatio	/ upperNonCurrentRatio;
-		itr.middlePopRatio	-= .0025 * (newDate.year - oldDate.year) * itr.middlePopRatio	/ middleNonCurrentRatio;
+		itr.middlePopRatio		-= .0025 * (newDate.year - oldDate.year) * itr.middlePopRatio	/ middleNonCurrentRatio;
 		itr.lowerPopRatio		-= .0025 * (newDate.year - oldDate.year) * itr.lowerPopRatio	/ lowerNonCurrentRatio;
 	}
 	
@@ -574,6 +606,17 @@ void	EU4Province::decayPopRatios(date oldDate, date newDate, EU4PopRatio& curren
 	currentPop.middlePopRatio	+= .0025 * (newDate.year - oldDate.year);
 	currentPop.lowerPopRatio	+= .0025 * (newDate.year - oldDate.year);
 }
+
+struct WeightInfo {
+  double buildings = 0;
+  double dev = 0;
+  double production = 0;
+  double manpower = 0;
+  double tax = 0;
+  double total = 0;
+};
+
+map<EU4Country*, WeightInfo> provinceWeightMap;
 
 void EU4Province::determineProvinceWeight()
 {
@@ -618,21 +661,54 @@ void EU4Province::determineProvinceWeight()
 		LOG(LogLevel::Error) << "Error in building weight vector: " << e.what();
 	}
 
-	// Check tag, ex. TIB has goods_produced +0.05
-	// This needs to be hard coded unless there's some other way of figuring out modded national ambitions/ideas
-	if (this->getOwnerString() == "TIB")
-	{
-		goods_produced_perc_mod += 0.05;
-	}
+        // Hardcode custom national ideas.
+	if (this->getOwnerString() == "BOH") {
+          building_tx_eff += 0.20; // Emperor
+        } else if (this->getOwnerString() == "Y70") {
+          production_eff += 0.20; // Sea Trader
+        } else if (this->getOwnerString() == "C21") {
+          production_eff += 0.20; // Merchant
+          goods_produced_perc_mod += 0.20;
+        } else if (this->getOwnerString() == "Z10") {
+          production_eff += 0.15; // Bombard
+        } else if (this->getOwnerString() == "Z04") {
+          production_eff += 0.20; // Friendly Coloniser
+        } else if (this->getOwnerString() == "AYU") {
+          building_tx_eff += 0.20; // Switzerland
+        } else if (this->getOwnerString() == "LON") {
+          production_eff += 0.20; // Mercantilist
+          goods_produced_perc_mod += 0.20;
+        } else if (this->getOwnerString() == "WUU") {
+          goods_produced_perc_mod += 0.10; // Large
+          building_tx_eff += 0.10;
+        } else if (this->getOwnerString() == "Z80") {
+          goods_produced_perc_mod += 0.10; // Captain
+          production_eff += 0.20;
+        } else if (this->getOwnerString() == "JAP") {
+          // Nothing for Caesar.
+        } else if (this->getOwnerString() == "KOR") {
+          // Nothing for Scholar.
+        } else if (this->getOwnerString() == "Z43") {
+          // Nothing for Knight.
+        } else if (this->getOwnerString() == "BEI") {
+          // Nothing for Peaceful Colonist.
+        } else if (this->getOwnerString() == "MDA") {
+          // Nothing for Byzantine.
+        } else if (this->getOwnerString() == "BRZ") {
+          // Nothing for Imperialist.
+        } else if (this->getOwnerString() == "Z32") {
+          production_eff += 0.10; // Cincinnatus
+        }
+
 
 	double goods_produced = (baseProd * 0.2) + manu_gp_mod + goods_produced_perc_mod + 0.03;
 
 	// idea effects
-	if ( (owner !=  NULL) && (owner->hasNationalIdea("bureaucracy")) )
+	if ( (owner !=  NULL) && (owner->hasNationalIdea("economic_ideas") >= 1) )
 	{
 		building_tx_eff += 0.10;
 	}
-	if ( (owner !=  NULL) && (owner->hasNationalIdea("smithian_economics")) )
+	if ( (owner !=  NULL) && (owner->hasNationalIdea("economic_ideas") >= 7) )
 	{
 		production_eff += 0.10;
 	}
@@ -640,11 +716,11 @@ void EU4Province::determineProvinceWeight()
 	// manpower
 	manpower_weight *= 25;
 	manpower_weight += manpower_modifier;
-	manpower_weight *= ((1 + manpower_modifier) / 25); // should work now as intended
+	manpower_weight *= ((1 + manpower_eff) / 25);
 
 	//LOG(LogLevel::Info) << "Manpower Weight: " << manpower_weight;
 
-	double total_tx = (baseTax + building_tx_income) * (1.0 + building_tx_eff + 0.15);
+	double total_tx = (baseTax + building_tx_income) * (1.0 + building_tx_eff);
 	double production_eff_tech = 0.5; // used to be 1.0
 
 	double total_trade_value = ((getTradeGoodPrice() * goods_produced) + trade_value) * (1 + trade_value_eff);
@@ -674,11 +750,20 @@ void EU4Province::determineProvinceWeight()
 	dev_modifier *= ( baseTax + baseProd + manpower );
 
 	totalWeight = building_weight + dev_modifier + ( manpower_weight + production_income + total_tx );
-	//i would change dev effect to 1, but your choice
+        if (territory) {
+          totalWeight *= 0.5;
+        }
 	if (owner == NULL)
 	{
 		totalWeight = 0;
-	}
+	} else {
+          provinceWeightMap[owner].buildings += building_weight;
+          provinceWeightMap[owner].dev += dev_modifier;
+          provinceWeightMap[owner].production += production_income;
+          provinceWeightMap[owner].manpower += manpower_weight;
+          provinceWeightMap[owner].tax += total_tx;
+          provinceWeightMap[owner].total += totalWeight;
+        }
 
 	// 0: Goods produced; 1 trade goods price; 2: trade value efficiency; 3: production effiency; 4: trade value; 5: production income
 	// 6: base tax; 7: building tax income 8: building tax eff; 9: total tax income; 10: total_trade_value
@@ -696,6 +781,30 @@ void EU4Province::determineProvinceWeight()
 	//LOG(LogLevel::Info) << "Num: " << num << " TAG: " << ownerString << " Weight: " << totalWeight;
 }
 
+void EU4Province::printPopMap() {
+  LOG(LogLevel::Info) << "Total country weights:";
+  char buffer[10000];
+  for (const auto& weight : provinceWeightMap) {
+    if (!weight.first->isHuman()) continue;
+    sprintf_s(buffer, 10000, "%s :\t%-5.1f \t%-5.1f \t%-5.1f \t%-5.1f \t%-5.1f \t\t%-6.1f ",
+              weight.first->getTag().c_str(), weight.second.buildings,
+              weight.second.dev, weight.second.production,
+              weight.second.manpower, weight.second.tax, weight.second.total);
+    LOG(LogLevel::Info) << string(buffer);
+  }
+
+  LOG(LogLevel::Info) << "Non-player countries:";
+  for (const auto& weight : provinceWeightMap) {
+    if (weight.first->isHuman()) continue;
+    sprintf_s(buffer, 10000,
+              "%s :\t%-5.1f \t%-5.1f \t%-5.1f \t%-5.1f \t%-5.1f \t\t%-6.1f ",
+              weight.first->getTag().c_str(), weight.second.buildings,
+              weight.second.dev, weight.second.production,
+              weight.second.manpower, weight.second.tax, weight.second.total);
+    LOG(LogLevel::Info) << string(buffer);
+  }
+
+}
 
 double EU4Province::getTradeGoodPrice() const
 {
@@ -1073,12 +1182,12 @@ vector<double> EU4Province::getProvBuildingWeight() const
 
     if (hasBuilding("shipyard"))
     {
-        dev_modifier += 0.1;
+        building_weight += 6;
     }
 
     if (hasBuilding("grand_shipyard"))
     {
-        dev_modifier += 0.2;
+        building_weight += 12;
     }
 
     if (hasBuilding("temple"))
@@ -1147,12 +1256,12 @@ vector<double> EU4Province::getProvBuildingWeight() const
         dev_modifier += 0.15;
     }
 
-    if (hasBuilding("center_of_trade"))
+    if (hasBuilding("center_of_trade_modifier"))
     {
         building_weight += 24;
     }
 
-    if (hasBuilding("inland_center_of_trade"))
+    if (hasBuilding("inland_center_of_trade_modifier"))
     {
         building_weight += 12;
     }

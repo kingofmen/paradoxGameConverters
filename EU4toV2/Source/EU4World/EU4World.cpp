@@ -62,6 +62,7 @@ EU4World::EU4World(const string& EU4SaveFileName)
 	addProvinceInfoToCountries();
 	loadDiplomacy(EU4SaveObject);
 	determineProvinceWeights();
+        EU4Province::printPopMap();
 
 	checkAllEU4CulturesMapped();
 	readCommonCountries();

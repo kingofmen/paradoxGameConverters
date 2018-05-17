@@ -82,7 +82,7 @@ class EU4Province {
 
 		std::vector<double>	getProvProductionVec() const { return provProductionVec; }
 		string					getTradeGoods() const { return tradeGoods; }
-
+  static void printPopMap();
 	private:
 		void	checkBuilding(Object* provinceObj, string building);
 		void	buildPopRatios();
@@ -109,7 +109,7 @@ class EU4Province {
 		vector< pair<date, string> >	cultureHistory;		// the history of the cultural changes of this province
 		vector<EU4PopRatio>				popRatios;				// the population ratios of this province
 		map<string, bool>					buildings;				// the buildings in this province
-
+                bool territory;
 		string								tradeGoods;
 		int									numV2Provs;
 
