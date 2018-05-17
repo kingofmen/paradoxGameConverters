@@ -109,13 +109,16 @@ class EU4Country
 		tuple<int, int, int>			getRevolutionaryTricolour()			const { return revolutionaryTricolour; }
 		string							getRandomName()							const { return randomName; }
 		const map<string, int>& getNationalIdeas() const { return nationalIdeas; }
+                bool isHuman() const {return human;}
 
 		string	getName() const { return name; }
 		string	getName(const string& language) const;
 		string	getAdjective(const string& language) const;
 		Color		getColor() const { return color; }
 
-	private:
+
+
+ private:
 		void							determineInvestments();
 		void							determineFlagsAndModifiers(Object* obj);
 		void							clearProvinces();
@@ -164,7 +167,7 @@ class EU4Country
 		CustomFlag						customFlag;				// the custom flag
 		bool								revolutionary;			// does this country wave the glorious tricoloured banner of the revolution
 		tuple<int, int, int>			revolutionaryTricolour; // the glorious tricoloured banner of the revolution
-		
+		bool human;
 
 		// Localisation attributes
 		string	name;			// the name of this country

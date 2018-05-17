@@ -44,6 +44,7 @@ EU4Country::EU4Country(Object* obj, EU4Version* version)
 	inHRE					= false;
 	holyRomanEmperor	= false;
 	celestialEmperor	= false;
+        human = (obj->safeGetString("human") == "yes");
 
 	vector<Object*> nameObj = obj->getValue("name");	// the object holding the name
 	(!nameObj.empty()) ? name = nameObj[0]->getLeaf() : name = "";
