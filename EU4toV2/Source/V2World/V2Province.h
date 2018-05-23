@@ -98,6 +98,8 @@ class V2Province
 		int						getNavalBaseLevel()	const { return navalBaseLevel; }
 		bool						hasLandConnection()	const { return landConnection; }
 		vector<V2Pop*>			getPops()				const { return pops; }
+		void addProvince(const EU4Province* prov) {sourceProvinces.push_back(prov);}
+		double totalProvinceWeight() const;
 
 	private:
 		void outputUnits(FILE*) const;
@@ -110,6 +112,7 @@ class V2Province
 		bool growSoldierPop(V2Pop* pop);
 
 		const EU4Province*		srcProvince;
+		std::vector<const EU4Province*>		sourceProvinces;
 
 		string						filename;
 		bool							coastal;

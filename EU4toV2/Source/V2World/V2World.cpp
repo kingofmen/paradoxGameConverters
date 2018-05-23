@@ -90,6 +90,7 @@ V2World::V2World(const EU4World& sourceWorld)
 	addUnions();
 	convertArmies(sourceWorld);
 	checkForCivilizedNations();
+        //randomiseRGOs();
 
 	output();
 }
@@ -766,6 +767,7 @@ void V2World::convertProvinces(const EU4World& sourceWorld)
 				{
 					// assign cores
 					vector<EU4Country*> oldCores = (*vitr)->getCores(sourceWorld.getCountries());
+                                        Vic2Province.second->addProvince(*vitr);
 					for (vector<EU4Country*>::iterator j = oldCores.begin(); j != oldCores.end(); j++)
 					{
 						std::string coreEU4Tag = (*j)->getTag();
@@ -785,7 +787,8 @@ void V2World::convertProvinces(const EU4World& sourceWorld)
 					}
 
 					// determine demographics
-					double provPopRatio = (*vitr)->getBaseTax() / newProvinceTotalBaseTax;
+					//double provPopRatio = (*vitr)->getBaseTax() / newProvinceTotalBaseTax;
+                                        double provPopRatio = 1.0;
 
 					auto popRatios = (*vitr)->getPopRatios();
 					vector<V2Demographic> demographics = determineDemographics(popRatios, *vitr, Vic2Province.second, oldOwner, Vic2Province.first, provPopRatio);
@@ -1437,7 +1440,7 @@ void V2World::setupPops(const EU4World& sourceWorld)
 	long		my_totalWorldPopulation = static_cast<long>(0.55 * totalWorldPopulation);
 	double	popWeightRatio = my_totalWorldPopulation / sourceWorld.getWorldWeightSum();
 
-	//ofstream output_file("Data.csv");
+	ofstream output_file("Data.csv");
 
 	int popAlgorithm = 0;
 	auto version12 = EU4Version("1.12.0");
@@ -1471,7 +1474,7 @@ void V2World::setupPops(const EU4World& sourceWorld)
 
 	long newTotalPopulation = 0;
 	// Heading
-	/*output_file << "EU ID"		<< ",";
+	output_file << "EU ID"		<< ",";
 	output_file << "EU NAME"	<< ",";
 	output_file << "OWNER"		<< ",";
 	output_file << "BTAX"		<< ",";
@@ -1485,126 +1488,127 @@ void V2World::setupPops(const EU4World& sourceWorld)
 	output_file << "V2 ID"		<< ",";
 	output_file << "V2 NAME"	<< ",";
 	output_file << "CALC POPS"	<< ",";
-	output_file << "POPS"		<< endl;*/
+	output_file << "POPS"		<< endl;
 	for (auto itr = provinces.begin(); itr != provinces.end(); itr++)
 	{
 		// EU4ID, EU4Name, EU4TAG, BTX, TAX, PROD, MP, BUILD, TRADE, WEIGHT, DESTV2, V2Name, POPs //
 		newTotalPopulation += itr->second->getTotalPopulation();
 
 		//	EU4 Province ID
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getNum() << ",";
-		//}
-		//else
-		//{
-		//	continue;
-		//}
-		////	EU4 Province Name
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getProvName() << ",";
-		//}
-		//else
-		//{
-		//	output_file << "SEA" << ",";
-		//}
-		////	EU4 Province Owner
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getOwnerString() << ",";
-		//}
-		//else
-		//{
-		//	output_file << "NULL" << ",";
-		//}
-		////	EU4 Base Tax
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << (2 * itr->second->getSrcProvince()->getBaseTax()) << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	EU4 Total Tax Income
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << 2*(itr->second->getSrcProvince()->getProvTaxIncome()) << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	EU4 Total Prod Income
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getProvProdIncome() << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	EU4 Total Manpower weight
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getProvMPWeight() << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	EU4 Total Building weight
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getProvTotalBuildingWeight() << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	EU4 Total Tradegoods weight
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getCurrTradeGoodWeight() << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	EU4 Province Weight
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getTotalWeight() << ",";
-		//}
-		//else
-		//{
-		//	output_file << -1 << ",";
-		//}
-		////	Number of DestV2Provs
-		//if (itr->second->getSrcProvince() != NULL)
-		//{
-		//	output_file << itr->second->getSrcProvince()->getNumDestV2Provs() << ",";
-		//}
-		//else
-		//{
-		//	output_file << -2 << ",";
-		//}
-		////	V2 Province ID
-		//output_file << itr->second->getNum() << ",";
-		////	V2 Province Name
-		//if (itr->second->getName() == "")
-		//{
-		//	output_file << itr->second->getNum() << ",";
-		//}
-		//else
-		//{
-		//	output_file << itr->second->getName() << ",";
-		//}
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getNum() << ",";
+		}
+		else
+		{
+			continue;
+		}
+		//	EU4 Province Name
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getProvName() << ",";
+		}
+		else
+		{
+			output_file << "SEA" << ",";
+		}
+		//	EU4 Province Owner
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getOwnerString() << ",";
+		}
+		else
+		{
+			output_file << "NULL" << ",";
+		}
+		//	EU4 Base Tax
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << (2 * itr->second->getSrcProvince()->getBaseTax()) << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	EU4 Total Tax Income
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << 2*(itr->second->getSrcProvince()->getProvTaxIncome()) << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	EU4 Total Prod Income
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getProvProdIncome() << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	EU4 Total Manpower weight
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getProvMPWeight() << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	EU4 Total Building weight
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getProvTotalBuildingWeight() << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	EU4 Total Tradegoods weight
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getCurrTradeGoodWeight() << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	EU4 Province Weight
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getTotalWeight() << ",";
+		}
+		else
+		{
+			output_file << -1 << ",";
+		}
+		//	Number of DestV2Provs
+		if (itr->second->getSrcProvince() != NULL)
+		{
+			output_file << itr->second->getSrcProvince()->getNumDestV2Provs() << ",";
+		}
+		else
+		{
+			output_file << -2 << ",";
+		}
+		//	V2 Province ID
+		output_file << itr->second->getNum() << ",";
+		//	V2 Province Name
+		if (itr->second->getName() == "")
+		{
+			output_file << itr->second->getNum() << ",";
+		}
+		else
+		{
+			output_file << itr->second->getName() << ",";
+		}
 		////	Calculated V2 POPs
 		//output_file << ((itr->second->getSrcProvince()->getTotalWeight()*popWeightRatio)/itr->second->getSrcProvince()->getNumDestV2Provs()) << ",";
+                output_file << itr->second->totalProvinceWeight() * popWeightRatio << ",";
 		////	V2 POPs
-		//output_file << itr->second->getTotalPopulation() << endl;
+		output_file << itr->second->getTotalPopulation() << endl;
 	}
 	LOG(LogLevel::Info) << "New total world population: " << newTotalPopulation;
 

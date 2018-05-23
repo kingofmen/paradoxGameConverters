@@ -96,6 +96,7 @@ class V2World
 		void setupPops(const EU4World& sourceWorld);
 		void addUnions();
 		void convertArmies(const EU4World& sourceWorld);
+		void randomiseRGOs();
 
 		void output() const;
 		void createModFile() const;

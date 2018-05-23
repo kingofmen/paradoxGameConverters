@@ -325,6 +325,7 @@ void V2Province::convertFromOldProvince(const EU4Province* oldProvince)
 	colonial = 0;
 	wasColonised = oldProvince->wasColonised();
 	originallyInfidel = oldProvince->wasInfidelConquest();
+        //LOG(LogLevel::Info) << "Converting " << name << " " << num << " from " << oldProvince->getProvName() << " " << oldProvince->getNum();
 }
 
 void V2Province::determineColonial()
@@ -770,6 +771,15 @@ V2Province::pop_points V2Province::getPopPoints_2(const V2Demographic& demograph
 	return pts;
 }
 
+double V2Province::totalProvinceWeight() const {
+  double ret = 0;
+  for (const auto* prov : sourceProvinces) {
+    double curr = prov->getTotalWeight() / prov->getNumDestV2Provs();
+    ret += curr;
+  }
+  return ret;
+}
+
 void V2Province::createPops(const V2Demographic& demographic, double popWeightRatio, const V2Country* _owner, int popConversionAlgorithm)
 {
 	const EU4Province*	oldProvince = demographic.oldProvince;
@@ -779,9 +789,9 @@ void V2Province::createPops(const V2Demographic& demographic, double popWeightRa
 	if (Configuration::getConvertPopTotals())
 	{
                 // Don't use life rating here.
-		newPopulation = 3.5*static_cast<long>(popWeightRatio * oldProvince->getTotalWeight());
+		newPopulation = static_cast<long>(3.5 * popWeightRatio * oldProvince->getTotalWeight());
 
-		int numOfV2Provs = srcProvince->getNumDestV2Provs();
+		int numOfV2Provs = oldProvince->getNumDestV2Provs();
 		if (numOfV2Provs > 1)
 		{
                   newPopulation /= numOfV2Provs;
@@ -902,6 +912,7 @@ void V2Province::createPops(const V2Demographic& demographic, double popWeightRa
           V2Pop* farmersPop = new V2Pop("farmers", farmers, demographic.culture, demographic.religion);
           pops.push_back(farmersPop);
         }
+
         /*
         LOG(LogLevel::Info)
             << "Name: " << this->getSrcProvince()->getProvName()
@@ -971,12 +982,13 @@ void V2Province::addPopDemographic(V2Demographic d)
 	bool combined = false;
 	for (auto itr = demographics.begin(); itr != demographics.end(); itr++)
 	{
-		if ((itr->culture == d.culture) && (itr->religion == d.religion))
+                if ((itr->culture == d.culture) && (itr->religion == d.religion) && (itr->oldProvince == d.oldProvince))
 		{
 			combined = true;
 			itr->upperRatio += d.upperRatio;
 			itr->middleRatio += d.middleRatio;
 			itr->lowerRatio += d.lowerRatio;
+                        break;
 		}
 	}
 	if (!combined)
