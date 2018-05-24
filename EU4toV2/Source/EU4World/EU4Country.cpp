@@ -697,7 +697,7 @@ string EU4Country::getAdjective(const string& language) const
 		return randomName;
 	}
 
-	if (adjectivesByLanguage.empty() && language == "english")
+	if (adjectivesByLanguage.empty() && language == "english" && !adjective.empty())
 	{
 		return adjective;
 	}
@@ -707,10 +707,11 @@ string EU4Country::getAdjective(const string& language) const
 	{
 		return findIter->second;
 	}
-	else
+	else if (language == "english")
 	{
-		return "";
+                return tag;
 	}
+        return "";
 }
 
 int EU4Country::numEmbracedInstitutions() const {

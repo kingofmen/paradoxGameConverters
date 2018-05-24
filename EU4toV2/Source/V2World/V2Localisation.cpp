@@ -123,7 +123,7 @@ std::string V2Localisation::GetLocalName()
 			return thisname;
 		}
 	}
-	return "";
+	return tag;
 }
 
 
@@ -136,7 +136,7 @@ std::string V2Localisation::GetLocalAdjective()
 			return thisname;
 		}
 	}
-	return "";
+	return tag;
 }
 
 std::string V2Localisation::StripAccents(const std::string& text)
