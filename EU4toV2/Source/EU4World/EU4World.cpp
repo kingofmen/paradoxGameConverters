@@ -62,7 +62,7 @@ EU4World::EU4World(const string& EU4SaveFileName)
 	addProvinceInfoToCountries();
 	loadDiplomacy(EU4SaveObject);
 	determineProvinceWeights();
-        EU4Province::printPopMap();
+        //EU4Province::printPopMap();
 
 	checkAllEU4CulturesMapped();
 	readCommonCountries();
@@ -749,6 +749,7 @@ void EU4World::setLocalisations()
 	{
 		LOG(LogLevel::Debug) << "Reading mod localisation";
 		localisation.ReadFromAllFilesInFolder(itr + "/localisation");
+		localisation.ReadFromAllFilesInFolder(itr + "/localisation/replace");
 	}
 
 	for (map<string, EU4Country*>::iterator countryItr = countries.begin(); countryItr != countries.end(); countryItr++)
