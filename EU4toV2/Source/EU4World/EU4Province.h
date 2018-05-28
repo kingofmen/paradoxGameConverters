@@ -60,6 +60,8 @@ class EU4Province {
 
 		int						getNum()					const { return num; }
 		double					getBaseTax()			const { return baseTax; }
+		double					getBaseProd()			const { return baseProd; }
+		double					getManpower()			const { return manpower; }
 		string					getOwnerString()		const { return ownerString; }
 		EU4Country*				getOwner()				const { return owner; }
 		bool						getInHRE()				const { return inHRE; }

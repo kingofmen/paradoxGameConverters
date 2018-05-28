@@ -219,6 +219,9 @@ EU4Province::EU4Province(Object* obj)
 	}
 
         territory = !obj->getValue("territorial_core").empty();
+        if (territory) {
+          //LOG(LogLevel::Info) << provName << " is a territory";
+        }
 
         //LOG(LogLevel::Info) << "Check unique Buildings...";
 	// unique buildings
@@ -245,12 +248,6 @@ EU4Province::EU4Province(Object* obj)
 
 	//LOG(LogLevel::Info) << "Check buildings...";
 	// base buildings 
-	checkBuilding(obj, "fort1");
-	checkBuilding(obj, "fort2");
-	checkBuilding(obj, "fort3");
-	checkBuilding(obj, "fort4");
-	checkBuilding(obj, "fort5");
-	checkBuilding(obj, "fort6");
 	checkBuilding(obj, "fort_15th");
 	checkBuilding(obj, "fort_16th");
 	checkBuilding(obj, "fort_17th");
@@ -285,13 +282,139 @@ EU4Province::EU4Province(Object* obj)
 	checkBuilding(obj, "canal");
 	checkBuilding(obj, "road_network");
 	checkBuilding(obj, "post_office");
-
-        checkBuilding(obj, "center_of_trade_modifier");
-        checkBuilding(obj, "stora_kopparberget_modifier");
-        checkBuilding(obj, "spice_islands_modifier");
-        checkBuilding(obj, "inland_center_of_trade_modifier");
-
-
+	checkBuilding(obj, "stora_kopparberget_modifier");
+    checkBuilding(obj, "center_of_trade_modifier");
+    checkBuilding(obj, "inland_center_of_trade_modifier");
+    checkBuilding(obj, "natural_harbor");
+	checkBuilding(obj, "cerro_rico_modifier");
+    checkBuilding(obj, "spice_islands_modifier");
+    checkBuilding(obj, "skanemarket");
+    checkBuilding(obj, "granary_of_the_mediterranean");
+    checkBuilding(obj, "ven_murano_glass_industry");
+    checkBuilding(obj, "diamond_mines_of_golconda_modifier");
+    checkBuilding(obj, "coffea_arabica_modifier");
+    checkBuilding(obj, "bookmarket_of_x");
+    checkBuilding(obj, "grand_bank_fisheries");
+    checkBuilding(obj, "diamond_district");
+    checkBuilding(obj, "perfume_capital");// to add
+    checkBuilding(obj, "the_staple_port");
+    checkBuilding(obj, "free_shipping_through_the_sound");
+    checkBuilding(obj, "bosphorous_sound_toll");
+    checkBuilding(obj, "sound_toll");
+    checkBuilding(obj, "jingdezhen_kilns");
+    checkBuilding(obj, "trade_post_modifier");
+    checkBuilding(obj, "river_estuary_modifier");
+    checkBuilding(obj, "neva_estuary_modifier");
+    checkBuilding(obj, "daugava_estuary_modifier");
+    checkBuilding(obj, "neman_estuary_modifier");
+    checkBuilding(obj, "vistula_estuary_modifier");
+    checkBuilding(obj, "oder_estuary_modifier");
+    checkBuilding(obj, "elbe_estuary_modifier");
+    checkBuilding(obj, "weser_estuary_modifier");
+    checkBuilding(obj, "ems_estuary_modifier");
+    checkBuilding(obj, "rhine_estuary_modifier");
+    checkBuilding(obj, "thames_estuary_modifier");
+    checkBuilding(obj, "rhone_estuary_modifier");
+    checkBuilding(obj, "gironde_estuary_modifier");
+    checkBuilding(obj, "loire_estuary_modifier");
+    checkBuilding(obj, "seine_estuary_modifier");
+    checkBuilding(obj, "ebro_estuary_modifier");
+    checkBuilding(obj, "douro_estuary_modifier");
+    checkBuilding(obj, "tagus_estuary_modifier");
+    checkBuilding(obj, "guadiana_estuary_modifier");
+    checkBuilding(obj, "po_estuary_modifier");
+    checkBuilding(obj, "danube_estuary_modifier");
+    checkBuilding(obj, "dnestr_estuary_modifier");
+    checkBuilding(obj, "dnieper_estuary_modifier");
+    checkBuilding(obj, "volga_estuary_modifier");
+    checkBuilding(obj, "don_estuary_modifier");
+    checkBuilding(obj, "yangtze_estuary_modifier");
+    checkBuilding(obj, "huang_he_estuary_modifier");
+    checkBuilding(obj, "ganges_estuary_modifier");
+    checkBuilding(obj, "indus_estuary_modifier");
+    checkBuilding(obj, "euphrates_estuary_modifier");
+    checkBuilding(obj, "nile_estuary_modifier");
+    checkBuilding(obj, "gambia_estuary_modifier");
+    checkBuilding(obj, "pearl_estuary_modifier");
+    checkBuilding(obj, "parana_estuary_modifier");
+    checkBuilding(obj, "mekong_estuary_modifier");
+    checkBuilding(obj, "mississippi_estuary_modifier");
+    checkBuilding(obj, "rio_grande_estuary_modifier");
+    checkBuilding(obj, "niger_estuary_modifier");
+    checkBuilding(obj, "saint_lawrence_estuary_modifier");
+    checkBuilding(obj, "hudson_estuary_modifier");
+    checkBuilding(obj, "nelson_eastuary_modifier");
+    checkBuilding(obj, "godavari_estuary_modifier");
+    checkBuilding(obj, "krodavari_estuary_modifier");
+    checkBuilding(obj, "krishna_estuary_modifier");
+    checkBuilding(obj, "kura_estuary_modifier");
+    checkBuilding(obj, "mangaeza_estuary_modifier");
+    checkBuilding(obj, "columbia_estuary_modifier");
+    checkBuilding(obj, "delaware_estuary_modifier");
+    checkBuilding(obj, "james_estuary_modifier");
+    checkBuilding(obj, "santee_estuary_modifier");
+    checkBuilding(obj, "guayas_estuary_modifier");
+    checkBuilding(obj, "senegal_estuary_modifier");
+    checkBuilding(obj, "zambezi_estuary_modifier");
+    checkBuilding(obj, "red_river_estuary_modifier");
+    checkBuilding(obj, "irrawaddy_estuary_modifier");
+    checkBuilding(obj, "kongo_estuary_modifier");
+    checkBuilding(obj, "public_works_of_cairo");
+    checkBuilding(obj, "port_to_the_new_world");
+    checkBuilding(obj, "the_tower_or_belem");
+    checkBuilding(obj, "merchant_council_of_sakai");
+    checkBuilding(obj, "azuchi_castle");
+    checkBuilding(obj, "ara_sindicat_remenca");
+    checkBuilding(obj, "kni_martinengo");
+    checkBuilding(obj, "kni_valetta");
+    checkBuilding(obj, "mousquetaires_du_roi");
+    checkBuilding(obj, "bah_bidar_fort");
+    checkBuilding(obj, "guj_walls_of_ahmedabad");
+    checkBuilding(obj, "guj_champaner");
+    checkBuilding(obj, "mer_kumbalgarh");
+    checkBuilding(obj, "jnp_jaunpur_qila");
+    checkBuilding(obj, "kbo_gazargamu");
+    checkBuilding(obj, "venice_ghetto");
+    checkBuilding(obj, "fortezza_di_sant_andrea");
+    checkBuilding(obj, "ven_ministers_of_waterways");
+    checkBuilding(obj, "ven_black_gondolas");
+    checkBuilding(obj, "ned_house_of_elzevir");
+    checkBuilding(obj, "hab_schwaz_mine");
+    checkBuilding(obj, "pru_unification_of_berlin");
+    checkBuilding(obj, "nor_bohus_fortress");
+    checkBuilding(obj, "nor_kongsberg_mine");
+    checkBuilding(obj, "dansborg_factory");
+    checkBuilding(obj, "city_of_the_kings");
+    checkBuilding(obj, "red_fort");
+    checkBuilding(obj, "dhimmi_residence");
+    checkBuilding(obj, "last_of_the_mahican");
+    checkBuilding(obj, "bng_delta_reclaimed");
+    checkBuilding(obj, "bng_port_of_calcutta");
+    checkBuilding(obj, "mca_salt_mines_of_zipaquira");
+    checkBuilding(obj, "hub_of_orinoco_trade");
+    checkBuilding(obj, "kizilirmak_estuary_modifier");
+    checkBuilding(obj, "menderes_estuary_modifier");
+    checkBuilding(obj, "el_dorado_mod");
+    checkBuilding(obj, "sce_life_water");
+    checkBuilding(obj, "sce_cibola_silver");
+    checkBuilding(obj, "sce_sierradelaplata_quartz");
+    checkBuilding(obj, "sce_golden_cups");
+    checkBuilding(obj, "sce_norumbega_abandoned");
+    checkBuilding(obj, "sce_saguenay_abandoned");
+    checkBuilding(obj, "sce_city_of_caesars");
+    checkBuilding(obj, "sce_quivira");
+    checkBuilding(obj, "birthplace_of_the_renaissance");
+    checkBuilding(obj, "birthplace_of_the_new_world");
+    checkBuilding(obj, "birthplace_of_printing_press");
+    checkBuilding(obj, "birthplace_of_global_trade");
+    checkBuilding(obj, "birthplace_of_manufactories");
+    checkBuilding(obj, "birthplace_of_enlightenment");
+    checkBuilding(obj, "growth_of_global_trade");
+    checkBuilding(obj, "slave_entrepot");
+    checkBuilding(obj, "major_slave_market");
+    checkBuilding(obj, "the_will_of_tano");
+    checkBuilding(obj, "the_whim_of_anansi");
+    checkBuilding(obj, "trading_post_modifier");
         buildPopRatios();
 }
 
@@ -701,8 +824,8 @@ void EU4Province::determineProvinceWeight()
         }
 
 
-	double goods_produced = (baseProd * 0.2) + manu_gp_mod + goods_produced_perc_mod + 0.03;
-
+	//double goods_produced = (baseProd * 0.2) + manu_gp_mod + goods_produced_perc_mod + 0.03;
+        double goods_produced = ((baseProd * 0.2) + manu_gp_mod) * (1 + goods_produced_perc_mod + 0.03);
 	// idea effects
 	if ( (owner !=  NULL) && (owner->hasNationalIdea("economic_ideas") >= 1) )
 	{
@@ -720,11 +843,11 @@ void EU4Province::determineProvinceWeight()
 
 	//LOG(LogLevel::Info) << "Manpower Weight: " << manpower_weight;
 
-	double total_tx = (baseTax + building_tx_income) * (1.0 + building_tx_eff);
-	double production_eff_tech = 0.5; // used to be 1.0
+	double total_tx = (baseTax + building_tx_income) * (1.6 + building_tx_eff);
+	double production_eff_tech = 0.2; // used to be 1.0
 
 	double total_trade_value = ((getTradeGoodPrice() * goods_produced) + trade_value) * (1 + trade_value_eff);
-	double production_income = total_trade_value * (1 + production_eff_tech + production_eff);
+	double production_income = total_trade_value * (1.8 + production_eff_tech + production_eff);
 	//LOG(LogLevel::Info) << "province name: " << this->getProvName() 
 	//	<< " trade good: " << tradeGoods 
 	//	<< " Price: " << getTradeGoodPrice() 
@@ -735,9 +858,12 @@ void EU4Province::determineProvinceWeight()
 	//	<< " production eff: " << production_eff 
 	//	<< " Production: " << production_income;
 
-	total_tx *= 1.5;
+	total_tx *= 1;
 	manpower_weight *= 1;
-	production_income *= 1.5;
+	production_income *= 1;
+ 
+	// dev modifier
+	dev_modifier *= ( baseTax + baseProd + manpower );														 
 
 	provBuildingWeight	= building_weight;
 	provTaxIncome			= total_tx;
@@ -745,14 +871,75 @@ void EU4Province::determineProvinceWeight()
 	provMPWeight			= manpower_weight;
 	provTradeGoodWeight	= trade_goods_weight;
 	provDevModifier	= dev_modifier;
-	
-	// dev modifier
-	dev_modifier *= ( baseTax + baseProd + manpower );
 
+	
+	if (baseTax + baseProd + manpower >= 10)
+	{	
+		building_weight += 1;
+	
+		if (baseTax + baseProd + manpower >= 20)
+		{	
+			building_weight += 2;
+	
+			if (baseTax + baseProd + manpower >= 30)
+			{	
+				building_weight += 4;
+	
+				if (baseTax + baseProd + manpower >= 40)
+				{	
+					building_weight += 6;
+	
+					if (baseTax + baseProd + manpower >= 50)
+					{	
+						building_weight += 9;
+	
+						if (baseTax + baseProd + manpower >= 60)
+						{	
+							building_weight += 12;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if (baseTax + baseProd + manpower >= 15)
+	{	
+		building_weight += 1;
+	
+		if (baseTax + baseProd + manpower >= 25)
+		{	
+			building_weight += 2;
+	
+			if (baseTax + baseProd + manpower >= 35)
+			{	
+				building_weight += 4;
+	
+				if (baseTax + baseProd + manpower >= 45)
+				{	
+					building_weight += 6;
+	
+					if (baseTax + baseProd + manpower >= 55)
+					{	
+						building_weight += 9;
+	
+						if (baseTax + baseProd + manpower >= 65)
+						{	
+							building_weight += 12;
+						}
+					}
+				}
+			}
+		}
+        }
 	totalWeight = building_weight + dev_modifier + ( manpower_weight + production_income + total_tx );
         if (territory) {
           totalWeight *= 0.5;
         }
+        if (std::find(cores.begin(), cores.end(), getOwnerString()) == cores.end()) {
+          totalWeight *= 0.25;
+        }
+
 	if (owner == NULL)
 	{
 		totalWeight = 0;
@@ -781,6 +968,7 @@ void EU4Province::determineProvinceWeight()
 	//LOG(LogLevel::Info) << "Num: " << num << " TAG: " << ownerString << " Weight: " << totalWeight;
 }
 
+        
 void EU4Province::printPopMap() {
   LOG(LogLevel::Info) << "Total country weights:";
   char buffer[10000];
@@ -810,6 +998,8 @@ double EU4Province::getTradeGoodPrice() const
 {
 	// Trade goods
 	/*
+	Trade good prices based on this : 
+	https://forum.paradoxplaza.com/forum/index.php?threads/analysis-of-trade-good-tiers-and-prices.914875/#post-23767415
 	chinaware
 	grain
 	fish
@@ -833,45 +1023,50 @@ double EU4Province::getTradeGoodPrice() const
 	silk
 	dyes
 	tropical_wood
+	incense
+	glass
+	livestock
+	gems
+	paper
 	*/
 	//LOG(LogLevel::Info) << "Trade Goods Price";
 	double tradeGoodsPrice = 0;
 
 	if (tradeGoods == "chinaware")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.04;
 	}
 	else if (tradeGoods == "grain")
 	{
-		tradeGoodsPrice = 2;
+		tradeGoodsPrice = 2.03;
 	}
 	else if (tradeGoods == "fish")
 	{
-		tradeGoodsPrice = 2.5;
+		tradeGoodsPrice = 2.11;
 	}
 	else if (tradeGoods == "tabacco")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.84;
 	}
 	else if (tradeGoods == "iron")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.74;
 	}
 	else if (tradeGoods == "copper")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.79;
 	}
 	else if (tradeGoods == "cloth")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.62;
 	}
 	else if (tradeGoods == "slaves")
 	{
-		tradeGoodsPrice = 2;
+		tradeGoodsPrice = 2.68;
 	}
 	else if (tradeGoods == "salt")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.24;
 	}
 	else if (tradeGoods == "gold")
 	{
@@ -879,59 +1074,79 @@ double EU4Province::getTradeGoodPrice() const
 	}
 	else if (tradeGoods == "fur")
 	{
-		tradeGoodsPrice = 2;
+		tradeGoodsPrice = 3.14;
 	}
 	else if (tradeGoods == "sugar")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.71;
 	}
 	else if (tradeGoods == "naval_supplies")
 	{
-		tradeGoodsPrice = 2;
+		tradeGoodsPrice = 2.35;
 	}
 	else if (tradeGoods == "tea")
 	{
-		tradeGoodsPrice = 2;
+		tradeGoodsPrice = 2.68;
 	}
 	else if (tradeGoods == "coffee")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 2.97;
 	}
 	else if (tradeGoods == "spices")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.68;
 	}
 	else if (tradeGoods == "wine")
 	{
-		tradeGoodsPrice = 2.5;
+		tradeGoodsPrice = 2.75;
 	}
 	else if (tradeGoods == "cocoa")
 	{
-		tradeGoodsPrice = 4;
+		tradeGoodsPrice = 4.39;
 	}
 	else if (tradeGoods == "ivory")
 	{
-		tradeGoodsPrice = 4;
+		tradeGoodsPrice = 4.19;
 	}
 	else if (tradeGoods == "wool")
 	{
-		tradeGoodsPrice = 2.5;
+		tradeGoodsPrice = 2.7;
 	}
 	else if (tradeGoods == "cotton")
 	{
-		tradeGoodsPrice = 3;
+		tradeGoodsPrice = 3.56;
 	}
 	else if (tradeGoods == "dyes")
 	{
-		tradeGoodsPrice = 4;
+		tradeGoodsPrice = 4.36;
 	}
 	else if (tradeGoods == "tropical_wood")
 	{
-		tradeGoodsPrice = 2;
+		tradeGoodsPrice = 2.52;
 	}
 	else if (tradeGoods == "silk")
 	{
-		tradeGoodsPrice = 4;
+		tradeGoodsPrice = 4.47;
+	}
+	else if (tradeGoods == "incense")
+	{
+		tradeGoodsPrice = 2.74;
+	}
+	else if (tradeGoods == "livestock")
+	{
+		tradeGoodsPrice = 2.94;
+	}
+	else if (tradeGoods == "glass")
+	{
+		tradeGoodsPrice = 3.23;
+	}
+	else if (tradeGoods == "gems")
+	{
+		tradeGoodsPrice = 3.67;
+	}
+	else if (tradeGoods == "paper")
+	{
+		tradeGoodsPrice = 4.42;
 	}
 	else
 	{
@@ -1090,13 +1305,13 @@ vector<double> EU4Province::getProvBuildingWeight() const
 	double trade_value					= 0.0;
 	double trade_value_eff				= 0.0;
 	double trade_power_eff				= 0.0;
-	double dev_modifier				= 0.0;
+	double dev_modifier				= 1.45;// representing forcelimit and trade power prov
 
 	// unique buildings
 	
     if (hasBuilding("university"))
     {
-        building_weight += 6;
+        building_weight += 2;
     }
 
     // manfacturies building
@@ -1136,23 +1351,6 @@ vector<double> EU4Province::getProvBuildingWeight() const
     }
 
     // Base buildings
-    if (hasBuilding("fort1"))
-    {
-        building_weight += 4;
-    }
-    if (hasBuilding("fort2"))
-    {
-        building_weight += 8;
-    }
-    if (hasBuilding("fort3"))
-    {
-        building_weight += 12;
-    }
-    if (hasBuilding("fort4"))
-    {
-        building_weight += 16;
-
-    }
     if (hasBuilding("fort_15th"))
     {
         building_weight += 4;
@@ -1182,12 +1380,12 @@ vector<double> EU4Province::getProvBuildingWeight() const
 
     if (hasBuilding("shipyard"))
     {
-        building_weight += 6;
+        dev_modifier += 0.075;
     }
 
     if (hasBuilding("grand_shipyard"))
     {
-        building_weight += 12;
+        dev_modifier += 0.15;
     }
 
     if (hasBuilding("temple"))
@@ -1285,6 +1483,412 @@ vector<double> EU4Province::getProvBuildingWeight() const
     {
         manu_gp_mod = 3.0;
     }
+
+    if (hasBuilding("skanemarket"))
+    {
+        manu_gp_mod = 1.5;
+    }
+
+    if (hasBuilding("granary_of_the_mediterranean"))
+    {
+        manu_gp_mod = 2.0;
+    }
+
+    if (hasBuilding("ven_murano_glass_industry"))
+    {
+        manu_gp_mod = 2.0;
+    }
+
+    if (hasBuilding("diamond_mines_of_golconda_modifier"))
+    {
+        manu_gp_mod = 4.0;
+    }
+
+    if (hasBuilding("coffea_arabica_modifier"))
+    {
+        manu_gp_mod = 3.0;
+    }
+
+    if (hasBuilding("bookmarket_of_x"))
+    {
+        manu_gp_mod = 1.0;
+    }
+
+    if (hasBuilding("grand_bank_fisheries"))
+    {
+        manu_gp_mod = 2.0;
+    }
+
+    if (hasBuilding("diamond_district"))
+    {
+        manu_gp_mod = 0.5;
+	trade_value_eff = 0.15;
+    }
+
+    if (hasBuilding("perfume_capital"))
+    {
+        manu_gp_mod = 0.5;
+	trade_value_eff = 0.15;
+    }
+
+    if (hasBuilding("jingdezhen_kilns"))
+    {
+        manu_gp_mod = 2.5;
+    }
+
+    if (hasBuilding("the_staple_port"))
+    {
+        dev_modifier += 0.0375;
+        building_tx_eff += 0.50;
+    }
+
+    if (hasBuilding("free_shipping_through_the_sound"))
+    {
+        dev_modifier += 0.0375;
+        building_weight += 11.25;
+    }
+
+    if (hasBuilding("bosphorous_sound_toll"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("sound_toll"))
+    {
+        building_weight += 15;
+    }
+
+    if (hasBuilding("trade_post_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("ganges_estuary_modifier"))
+    {
+        building_weight += 3.75;
+    }
+
+    if (hasBuilding("nile_estuary_modifier"))
+    {
+        building_weight += 3.75;
+    }
+
+    if (hasBuilding("irrawaddy_estuary_modifier"))
+    {
+        building_weight += 3.75;
+    }
+
+    if (hasBuilding("river_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("neva_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("daugava_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("neman_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("vistula_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("oder_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("elbe_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("weser_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("ems_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("rhine_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("thames_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("rhone_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("gironde_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("loire_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("seine_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("ebro_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("douro_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("tagus_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("guadiana_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("po_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("danube_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("dnestr_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("dnieper_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("volga_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("don_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("yangtze_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("huang_he_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("indus_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("euphrates_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("gambia_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("pearl_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("parana_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("mekong_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("mississippi_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("rio_grande_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("niger_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("saint_lawrence_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("hudson_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("nelson_eastuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("godavari_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("krodavari_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("krishna_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("kura_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("mangaeza_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("columbia_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("delaware_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("james_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("santee_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("guayas_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("senegal_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("zambezi_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("red_river_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("kongo_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("kizilirmak_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("menderes_estuary_modifier"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("trading_post_modifier"))
+    {
+        building_weight += 0.75;
+        dev_modifier += 0.03;
+        trade_value += 0.5;
+    }
+
+    if (hasBuilding("birthplace_of_the_renaissance"))
+    {
+        building_weight += 3;
+    }
+
+    if (hasBuilding("birthplace_of_the_new_world"))
+    {
+        building_weight += 7.5;
+    }
+
+    if (hasBuilding("birthplace_of_printing_press"))
+    {
+        building_weight += 1.5;
+    }
+
+    if (hasBuilding("birthplace_of_global_trade"))
+    {
+        dev_modifier += 0.06;
+    }
+
+    if (hasBuilding("birthplace_of_manufactories"))
+    {
+        manu_gp_mod += 0.5;
+    }
+
+    if (hasBuilding("birthplace_of_enlightenment"))
+    {
+        building_weight += 1.5;
+    }  
     std::vector<double> provBuildingWeightVec;
     provBuildingWeightVec.push_back(building_weight);
     provBuildingWeightVec.push_back(manpower_modifier);

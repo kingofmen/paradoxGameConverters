@@ -549,16 +549,26 @@ void EU4World::determineProvinceWeights()
 	std::map<string, vector<double> > world_tag_weights;
 
 	//// Heading
-	EU4_Production << "PROV NAME" << ",";
+	EU4_Production << "PROVINCE" << ",";
+	EU4_Production << "PROVNAME" << ",";
 	EU4_Production << "OWNER" << ",";
-	EU4_Production << "TRADE GOOD" << ",";
-	EU4_Production << "GOODS PROD" << ",";
+	EU4_Production << "TRADEGOOD" << ",";
 	EU4_Production << "PRICE" << ",";
-	EU4_Production << "TRADE EFF" << ",";
-	EU4_Production << "PROD EFF" << ",";
-	EU4_Production << "PROV TRADE VAL" << ",";
-	EU4_Production << "TOTAL TRADE VAL" << ",";
-	EU4_Production << "TOTAL PRODUCTION" << endl;
+	EU4_Production << "BP" << ",";
+	EU4_Production << "GOODSPROD" << ",";
+	EU4_Production << "TRADEVALUE" << ",";
+	EU4_Production << "TRADEVALUEEFF" << ",";
+	EU4_Production << "TOTALTRADEVAL" << ",";
+	EU4_Production << "PRODEFF" << ",";
+	EU4_Production << "TOTALPRODUCTION" << ",";
+	EU4_Production << "BASETAX" << ",";
+	EU4_Production << "TAXEFF" << ",";
+	EU4_Production << "TOTALTAXINCOME" <<",";
+	EU4_Production << "BUILDWEIGHT" << ",";
+	EU4_Production << "MP" << ",";
+	EU4_Production << "MPMOD" << ",";
+	EU4_Production << "DEVMOD" << ",";
+	EU4_Production << "IGNORE" <<  endl;
 
 	// Heading
 	EU4_World << "COUNTRY" << ",";
@@ -584,18 +594,27 @@ void EU4World::determineProvinceWeights()
 		// 6: base tax; 7: building tax income 8: building tax eff; 9: total tax income; 10: total_trade_value
 
 
-		provEconVec = i->second->getProvProductionVec();
-		EU4_Production << i->second->getProvName() << ",";
-		EU4_Production << i->second->getOwnerString() << ",";
-		EU4_Production << i->second->getTradeGoods() << ",";
-		EU4_Production << provEconVec.at(0) << ",";
-		EU4_Production << provEconVec.at(1) << ",";
-		EU4_Production << provEconVec.at(2) << ",";
-		EU4_Production << provEconVec.at(3) << ",";
-		EU4_Production << provEconVec.at(4) << ",";
-		EU4_Production << provEconVec.at(10) << ",";
-		EU4_Production << i->second->getProvProdIncome() << "," << endl;
-
+                provEconVec = i->second->getProvProductionVec();
+                EU4_Production << i->second->getNum() << ",";
+                EU4_Production << i->second->getProvName() << ",";
+                EU4_Production << i->second->getOwnerString() << ",";
+                EU4_Production << i->second->getTradeGoods() << ",";
+                EU4_Production << provEconVec.at(1) << ",";
+                EU4_Production << i->second->getBaseProd() << ",";
+                EU4_Production << provEconVec.at(0) << ",";
+                EU4_Production << provEconVec.at(4) << ",";
+                EU4_Production << provEconVec.at(2) << ",";
+                EU4_Production << provEconVec.at(10) << ",";
+                EU4_Production << provEconVec.at(3) << ",";
+                EU4_Production << provEconVec.at(5) << ",";
+                EU4_Production << provEconVec.at(6) << ",";
+                EU4_Production << provEconVec.at(8) << ",";
+                EU4_Production << provEconVec.at(9) << ",";
+                EU4_Production << i->second->getProvTotalBuildingWeight() << ",";
+                EU4_Production << i->second->getManpower() << ",";
+                EU4_Production << i->second->getProvMPWeight() << ",";
+                EU4_Production << i->second->getProvTotalDevModifier() << ",";
+                EU4_Production << i->second->getTotalWeight() << "," << endl;
 
 		EU4_Tax << i->second->getProvName() << ",";
 		EU4_Tax << i->second->getOwnerString() << ",";
