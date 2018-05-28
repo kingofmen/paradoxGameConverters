@@ -39,7 +39,6 @@ EU4Province::EU4Province(Object* obj)
 	provTradeGoodWeight = 0;
 	provDevModifier = 0;
 
-
 	numV2Provs = 0;
 
 	num = 0 - atoi(obj->getKey().c_str());
@@ -74,8 +73,17 @@ EU4Province::EU4Province(Object* obj)
 	{
 		cores.push_back(coreObjs[i]->getLeaf());
 	}
+        Object* coreContainer = obj->safeGetObject("cores");
+        if (coreContainer) {
+          for (int i = 0; i < coreContainer->numTokens(); ++i) {
+            auto core = coreContainer->getToken(i);
+            if (std::find(cores.begin(), cores.end(), core) == cores.end()) {
+              cores.push_back(core);
+            }
+          }
+        }
 
-	vector<Object*> hreObj = obj->getValue("hre");
+        vector<Object*> hreObj = obj->getValue("hre");
 	if ((hreObj.size() > 0) && (hreObj[0]->getLeaf() == "yes"))
 	{
 		inHRE = true;
@@ -787,6 +795,7 @@ void EU4Province::determineProvinceWeight()
         // Hardcode custom national ideas.
 	if (this->getOwnerString() == "BOH") {
           building_tx_eff += 0.20; // Emperor
+          building_tx_eff += 0.05; // HRE
         } else if (this->getOwnerString() == "Y70") {
           production_eff += 0.20; // Sea Trader
         } else if (this->getOwnerString() == "C21") {
