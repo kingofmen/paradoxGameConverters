@@ -59,7 +59,7 @@ class State: commonItems::parser
 		void determineIfPartialState();
 
 		int getPopulation() const;
-		int getAverageRailLevel() const
+		int getAverageRailLevel() const;
 		int[6] getRgo() const;
 
 		void addProvince(const Province* province) { provinces.insert(province); }
