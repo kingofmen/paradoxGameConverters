@@ -60,7 +60,8 @@ class State: commonItems::parser
 
 		int getPopulation() const;
 		int getAverageRailLevel() const;
-		int[6] getRgo() const;
+
+		int* getRgo() const;
 
 		void addProvince(const Province* province) { provinces.insert(province); }
 
