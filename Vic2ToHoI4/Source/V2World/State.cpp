@@ -203,106 +203,106 @@ int Vic2::State::getAverageRailLevel() const
 }
 
 
-int* Vic2::State::getRgo() const
+int* Vic2::State::setRgo() const
 {
 	int rgos[6] = {0, 0, 0, 0 ,0, 0}; //oil, rubber, aluminium, steel, tungsten, chromium
 	for (auto province: provinces)
 	{
-		if (province->getRgoString() == "iron")
+		if (province->getRgo() == "iron")
 		{
 			double x = 5*(province->getTotalPopulation() / 250000);
 			rgos[3] = rgos[3] + x + 20; //steel
 		}
-		if (province->getRgoString() == "coal")
+		if (province->getRgo() == "coal")
 		{
 			double x = 2.5 * (province->getTotalPopulation() / 250000);
 			double y = 1.5 * (province->getTotalPopulation() / 250000);
 			rgos[3] = rgos[3] + x + 10; //steel
 			rgos[0] = rgos[0] + y + 10; //oil
 		}
-		if (province->getRgoString() == "timber")
+		if (province->getRgo() == "timber")
 		{
 			double x = 1 * (province->getTotalPopulation() / 250000);
 			rgos[3] = rgos[3] + x + 4; //steel
 		}
-		if (province->getRgoString() == "oil")
+		if (province->getRgo() == "oil")
 		{
 			double x = 3 * (province->getTotalPopulation() / 250000);
 			rgos[0] = rgos[0] + x + 20; //oil
 		}
-		if (province->getRgoString() == "tropical_wood")
+		if (province->getRgo() == "tropical_wood")
 		{
 			double x = 1 * (province->getTotalPopulation() / 250000);
 			double y = 0.6 * (province->getTotalPopulation() / 250000);
 			rgos[0] = rgos[0] + y + 4; //oil 
 			rgos[2] = rgos[2] + x + 4; //aluminium
 		}
-		if (province->getRgoString() == "grain")
+		if (province->getRgo() == "grain")
 		{
 			double x = 0.3 * (province->getTotalPopulation() / 250000);
 			rgos[0] = rgos[0] + x + 2; //oil
 		}
-		if (province->getRgoString() == "fish")
+		if (province->getRgo() == "fish")
 		{
 			double x = 0.3 * (province->getTotalPopulation() / 250000);
 			rgos[0] = rgos[0] + x + 2; //oil
 		}
-		if (province->getRgoString() == "rubber")
+		if (province->getRgo() == "rubber")
 		{
 			double x = 5 * (province->getTotalPopulation() / 250000);
 			rgos[1] = rgos[1] + x + 20; //rubber
 		}
-		if (province->getRgoString() == "silk")
+		if (province->getRgo() == "silk")
 		{
 			double x = 1 * (province->getTotalPopulation() / 250000);
 			rgos[1] = rgos[1] + x + 4; //rubber
 		}
-		if (province->getRgoString() == "tea")
+		if (province->getRgo() == "tea")
 		{
 			double x = 1 * (province->getTotalPopulation() / 250000);
 			rgos[1] = rgos[1] + x + 4; //rubber
 		}
-		if (province->getRgoString() == "precious_metal")
+		if (province->getRgo() == "precious_metal")
 		{
 			double x = 5 * (province->getTotalPopulation() / 250000);
 			rgos[2] = rgos[2] + x + 20; //aluminium
 		}
-		if (province->getRgoString() == "wool")
+		if (province->getRgo() == "wool")
 		{
 			double x = 1 * (province->getTotalPopulation() / 250000);
 			rgos[2] = rgos[2] + x + 4; //aluminium
 		}
-		if (province->getRgoString() == "dye")
+		if (province->getRgo() == "dye")
 		{
 			double x = 5 * (province->getTotalPopulation() / 250000);
 			rgos[4] = rgos[4] + x + 20; //tungsten
 		}
-		if (province->getRgoString() == "cotton")
+		if (province->getRgo() == "cotton")
 		{
 			double x = 1 * (province->getTotalPopulation() / 250000);
 			rgos[4] = rgos[4] + x + 4; //tungsten
 		}
-		if (province->getRgoString() == "coffee")
+		if (province->getRgo() == "coffee")
 		{
 			double x = 0.5 * (province->getTotalPopulation() / 250000);
 			rgos[4] = rgos[4] + x + 2; //tungsten
 		}
-		if (province->getRgoString() == "tobacco")
+		if (province->getRgo() == "tobacco")
 		{
 			double x = 0.5 * (province->getTotalPopulation() / 250000);
 			rgos[4] = rgos[4] + x + 2; //tungsten
 		}
-		if (province->getRgoString() == "sulphur")
+		if (province->getRgo() == "sulphur")
 		{
 			double x = 5 * (province->getTotalPopulation() / 250000);
 			rgos[5] = rgos[5] + x + 20; //chromium
 		}
-		if (province->getRgoString() == "fruit")
+		if (province->getRgo() == "fruit")
 		{
 			double x = 0.5 * (province->getTotalPopulation() / 250000);
 			rgos[5] = rgos[5] + x + 2; //chromium
 		}
-		if (province->getRgoString() == "cattle")
+		if (province->getRgo() == "cattle")
 		{
 			double x = 0.5 * (province->getTotalPopulation() / 250000);
 			rgos[5] = rgos[5] + x + 2; //chromium
