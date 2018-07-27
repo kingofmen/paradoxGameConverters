@@ -564,7 +564,7 @@ void HoI4::State::setInfrastructure(int factories)
 {
 	infrastructure = 3;
 	infrastructure += sourceState->getAverageRailLevel() / 2;
-	int *rgohoi = sourceState->getRgo();//oil, rubber, aluminium, steel, tungsten, chromium
+	int *rgohoi = sourceState->setRgo();//oil, rubber, aluminium, steel, tungsten, chromium
 	oil = rgohoi[0];
 	rubber = rgohoi[1];
 	aluminium = rgohoi[2];
