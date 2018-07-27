@@ -133,11 +133,11 @@ Vic2::Province::Province(const std::string& numberString, std::istream& theStrea
 	});	
 	registerKeyword(std::regex("goods_type"),  [this](const std::string& unused, std::istream& theStream)
 	{
-		commonItems::singleString rgoTest(theStream);
-		newRgoString = rgoTest.getString();
-		if (newRgoString.substr(0, 1) == "\"")
+		commonItems::singleString rgoString(theStream);
+		rgo = rgoString.getString();
+		if (rgo.substr(0, 1) == "\"")
 		{
-			newRgoString = newRgoString.substr(1, newRgoString.size() - 2);
+			rgo = rgo.substr(1, rgo.size() - 2);
 		}
 	});																								  
 
