@@ -513,7 +513,7 @@ void HoI4::State::convertIndustry(double workerFactoryRatio, const HoI4::stateCa
 
 int HoI4::State::determineFactoryNumbers(double workerFactoryRatio)
 {
-	double rawFactories = sourceState->getEmployedWorkers() * workerFactoryRatio;
+	double rawFactories = sourceState->getEmployedWorkers() * 0.4 * workerFactoryRatio;
 	rawFactories = round(rawFactories);
 	return constrainFactoryNumbers(rawFactories);
 }
@@ -524,10 +524,6 @@ int HoI4::State::constrainFactoryNumbers(double rawFactories)
 	int factories = static_cast<int>(rawFactories);
 
 	int upperLimit = 12;
-	if (capitalState)
-	{
-		upperLimit = 11;
-	}
 
 	if (factories < 0)
 	{
@@ -544,14 +540,15 @@ int HoI4::State::constrainFactoryNumbers(double rawFactories)
 
 void HoI4::State::determineCategory(int factories, const HoI4::stateCategories& theStateCategories)
 {
+	int population = sourceState->getPopulation();
+	int stateSlots = population / 300000;
 	if (capitalState)
 	{
 		factories++;
+		stateSlots++;
+		stateSlots++;
 	}
-
-	int population = sourceState->getPopulation();
-	int stateSlots = population / 120000;
-	if (factories >= stateSlots)
+	if (factories >= stateSlots + 2)
 	{
 		stateSlots = factories + 2;
 	}
@@ -564,7 +561,7 @@ void HoI4::State::setInfrastructure(int factories)
 {
 	infrastructure = 3;
 	infrastructure += sourceState->getAverageRailLevel() / 2;
-	int *rgohoi = sourceState->setRgo();//oil, rubber, aluminium, steel, tungsten, chromium
+	int *rgohoi = sourceState->getRgo();//oil, rubber, aluminium, steel, tungsten, chromium
 	oil = rgohoi[0];
 	rubber = rgohoi[1];
 	aluminium = rgohoi[2];
