@@ -76,7 +76,11 @@ spriteTypes = {
 
 	spriteType = {
 		name = "GFX_idea_culture_alien"
+<<<<<<< HEAD
 		texturefile = "gfx/interface/goals/goal_tfv_generic_tech_sharing.dds"
+=======
+		texturefile = "gfx/interface/culture/culture_alien.dds"
+>>>>>>> idhrendur
 	}
 
 	spriteType = {
