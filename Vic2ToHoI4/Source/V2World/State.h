@@ -52,18 +52,32 @@ typedef struct
 class State: commonItems::parser
 {
 	public:
-		State(std::istream& theStream, const std::string& ownerTag);
-		explicit State(std::set<std::pair<int, Province*>> theProvinces);
+          enum HoIResource
+          {
+                  kOil = 0,
+                  kRubber = 1,
+                  kAluminium = 2,
+                  kSteel = 3,
+                  kTungsten = 4,
+                  kChromium = 5,
+                  kNumResources = 6,
+          };
 
-		void determineEmployedWorkers();
-		void determineIfPartialState();
+          State(std::istream& theStream, const std::string& ownerTag);
+          explicit State(std::set<std::pair<int, Province*>> theProvinces);
 
-		int getPopulation() const;
-		int getAverageRailLevel() const;
+          void determineEmployedWorkers();
+          void determineIfPartialState();
 
-		int* setRgo() const;
+          int getPopulation() const;
+          int getAverageRailLevel() const;
 
-		void addProvince(const Province* province) { provinces.insert(province); }
+          void setRgo();
+          int getRgo(int res) const { return rgos[res]; }
+
+          void addProvince(const Province* province)
+          {
+                  provinces.insert(province); }
 
 		std::set<const Province*> getProvinces() const { return provinces; }
 		std::set<int> getProvinceNums() const { return provinceNums; }
@@ -96,9 +110,10 @@ class State: commonItems::parser
 
 		int factoryLevel = 0;
 		int employedWorkers = 0;
+                std::vector<int> rgos;
 };
 
-}
+}  // namespace Vic2
 
 
 

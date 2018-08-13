@@ -252,6 +252,7 @@ void Vic2::Country::putProvincesInStates()
 
 			state->addProvince(province->second);
 		}
+                state->setRgo();
 	}
 }
 

@@ -20,6 +20,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
 
+#include <unordered_map>
+#include <string>
 
 #include "State.h"
 #include "Building.h"
@@ -50,6 +52,7 @@ Vic2::State::State(std::istream& theStream, const std::string& ownerTag):
 
 	parseStream(theStream);
 	setID();
+        rgos.resize(kNumResources);
 }
 
 
@@ -203,112 +206,55 @@ int Vic2::State::getAverageRailLevel() const
 }
 
 
-int* Vic2::State::setRgo() const
+void Vic2::State::setRgo()
 {
-	int rgos[6] = {0, 0, 0, 0 ,0, 0}; //oil, rubber, aluminium, steel, tungsten, chromium
+        double weights[kNumResources] = {0, 0, 0, 0, 0, 0};
+        static const double kAdjust[kNumResources] = {1.0, 1.0, 1.0,
+                                                      1.0, 1.0, 1.0};
+        static const std::unordered_map<std::string, std::unordered_map<int, double>> kWeights = {
+          {"iron", {{kSteel, 5.0}}},
+          {"coal", {{kSteel, 2.5}, {kOil, 1.5}}},
+          {"oil", {{kOil, 5.0}}},
+          {"timber", {{kSteel, 1.0}}},
+          {"tropical_wood", {{kOil, 1.0}, {kAluminium, 0.6}}},
+          {"grain", {{kOil, 0.3}}},
+          {"fish", {{kOil, 0.3}}},
+          {"rubber", {{kRubber, 5.0}}},
+          {"silk", {{kRubber, 1.0}}},
+          {"tea", {{kRubber, 1.0}}},
+          {"precious_metal", {{kAluminium, 5.0}}},
+          {"opium", {{kAluminium, 1.0}}},
+          {"wool", {{kAluminium, 1.0}}},
+          {"dye", {{kTungsten, 5.0}}},
+          {"cotton", {{kTungsten, 1.0}}},
+          {"coffee", {{kTungsten, 0.5}}},
+          {"tobacco", {{kTungsten, 0.5}}},
+          {"sulphur", {{kChromium, 5.0}}},
+          {"fruit", {{kChromium, 0.5}}},
+          {"cattle", {{kChromium, 0.5}}},
+        };
 	for (auto province: provinces)
 	{
-		if (province->getRgo() == "iron")
-		{
-			double x = 5*(province->getTotalPopulation() / 250000);
-			rgos[3] = rgos[3] + x + 20; //steel
-		}
-		if (province->getRgo() == "coal")
-		{
-			double x = 2.5 * (province->getTotalPopulation() / 250000);
-			double y = 1.5 * (province->getTotalPopulation() / 250000);
-			rgos[3] = rgos[3] + x + 10; //steel
-			rgos[0] = rgos[0] + y + 10; //oil
-		}
-		if (province->getRgo() == "timber")
-		{
-			double x = 1 * (province->getTotalPopulation() / 250000);
-			rgos[3] = rgos[3] + x + 4; //steel
-		}
-		if (province->getRgo() == "oil")
-		{
-			double x = 3 * (province->getTotalPopulation() / 250000);
-			rgos[0] = rgos[0] + x + 20; //oil
-		}
-		if (province->getRgo() == "tropical_wood")
-		{
-			double x = 1 * (province->getTotalPopulation() / 250000);
-			double y = 0.6 * (province->getTotalPopulation() / 250000);
-			rgos[0] = rgos[0] + y + 4; //oil 
-			rgos[2] = rgos[2] + x + 4; //aluminium
-		}
-		if (province->getRgo() == "grain")
-		{
-			double x = 0.3 * (province->getTotalPopulation() / 250000);
-			rgos[0] = rgos[0] + x + 2; //oil
-		}
-		if (province->getRgo() == "fish")
-		{
-			double x = 0.3 * (province->getTotalPopulation() / 250000);
-			rgos[0] = rgos[0] + x + 2; //oil
-		}
-		if (province->getRgo() == "rubber")
-		{
-			double x = 5 * (province->getTotalPopulation() / 250000);
-			rgos[1] = rgos[1] + x + 20; //rubber
-		}
-		if (province->getRgo() == "silk")
-		{
-			double x = 1 * (province->getTotalPopulation() / 250000);
-			rgos[1] = rgos[1] + x + 4; //rubber
-		}
-		if (province->getRgo() == "tea")
-		{
-			double x = 1 * (province->getTotalPopulation() / 250000);
-			rgos[1] = rgos[1] + x + 4; //rubber
-		}
-		if (province->getRgo() == "precious_metal")
-		{
-			double x = 5 * (province->getTotalPopulation() / 250000);
-			rgos[2] = rgos[2] + x + 20; //aluminium
-		}
-		if (province->getRgo() == "wool")
-		{
-			double x = 1 * (province->getTotalPopulation() / 250000);
-			rgos[2] = rgos[2] + x + 4; //aluminium
-		}
-		if (province->getRgo() == "dye")
-		{
-			double x = 5 * (province->getTotalPopulation() / 250000);
-			rgos[4] = rgos[4] + x + 20; //tungsten
-		}
-		if (province->getRgo() == "cotton")
-		{
-			double x = 1 * (province->getTotalPopulation() / 250000);
-			rgos[4] = rgos[4] + x + 4; //tungsten
-		}
-		if (province->getRgo() == "coffee")
-		{
-			double x = 0.5 * (province->getTotalPopulation() / 250000);
-			rgos[4] = rgos[4] + x + 2; //tungsten
-		}
-		if (province->getRgo() == "tobacco")
-		{
-			double x = 0.5 * (province->getTotalPopulation() / 250000);
-			rgos[4] = rgos[4] + x + 2; //tungsten
-		}
-		if (province->getRgo() == "sulphur")
-		{
-			double x = 5 * (province->getTotalPopulation() / 250000);
-			rgos[5] = rgos[5] + x + 20; //chromium
-		}
-		if (province->getRgo() == "fruit")
-		{
-			double x = 0.5 * (province->getTotalPopulation() / 250000);
-			rgos[5] = rgos[5] + x + 2; //chromium
-		}
-		if (province->getRgo() == "cattle")
-		{
-			double x = 0.5 * (province->getTotalPopulation() / 250000);
-			rgos[5] = rgos[5] + x + 2; //chromium
-		}
-	}
+                double population = province->getTotalPopulation() * (1.0 / 250000);
+                if (kWeights.find(province->getRgo()) == kWeights.end()) {
+                        LOG(LogLevel::Warning)
+                            << "Province " << province->getIdentifier()
+                            << " has unweighted RGO type "
+                            << province->getRgo();
+                        continue;
+                }
+                for (const auto& weight : kWeights.at(province->getRgo()))
+                {
+                        weights[weight.first] += population * weight.second;
+                }
+                LOG(LogLevel::Info)
+                    << "Province " << province->getIdentifier() << " rgo "
+                    << province->getRgo() << " population " << population
+                    << " steel " << weights[kSteel];
+        }
 
-	return rgos;
-
+        for (int i = 0; i < kNumResources; ++i)
+        {
+                rgos[i] = (int)floor(0.5 + weights[i] * kAdjust[i]);
+        }
 }

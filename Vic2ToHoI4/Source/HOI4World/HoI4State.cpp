@@ -561,13 +561,13 @@ void HoI4::State::setInfrastructure(int factories)
 {
 	infrastructure = 3;
 	infrastructure += sourceState->getAverageRailLevel() / 2;
-	int *rgohoi = sourceState->setRgo();//oil, rubber, aluminium, steel, tungsten, chromium
-	oil = rgohoi[0];
-	rubber = rgohoi[1];
-	aluminium = rgohoi[2];
-	steel = rgohoi[3];
-	tungsten = rgohoi[4];
-	chromium = rgohoi[5];
+
+	oil       = sourceState->getRgo(Vic2::State::kOil);
+	rubber    = sourceState->getRgo(Vic2::State::kRubber);
+	aluminium = sourceState->getRgo(Vic2::State::kAluminium);
+        steel     = sourceState->getRgo(Vic2::State::kSteel);
+        tungsten  = sourceState->getRgo(Vic2::State::kTungsten);
+	chromium  = sourceState->getRgo(Vic2::State::kChromium);
 
 	if (factories > 4)
 	{
