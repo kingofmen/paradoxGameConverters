@@ -68,10 +68,12 @@ class Province: commonItems::parser
 		int getFortLevel() const { return fortLevel; }
 		int getNavalBaseLevel() const { return navalBaseLevel; }
 		std::vector<std::shared_ptr<const Pop>> getPops() const { return pops; }
-		
-		std::string getRgo() const { return rgo; }										
 
-	private:
+                std::string getRgo() const { return rgo; }
+                std::string getName() const { return name; }
+                std::string getIdentifier() const { return identifier; }
+
+        private:
 		Province(const Province&) = delete;
 		Province& operator=(const Province&) = delete;
 
@@ -79,7 +81,8 @@ class Province: commonItems::parser
 
 		int number;
 
-		std::string ownerString = "";
+                std::string name = "";
+                std::string ownerString = "";
 		const Country* owner = nullptr;
 
 		std::set<std::string> coreStrings;
@@ -92,6 +95,7 @@ class Province: commonItems::parser
 		int railLevel = 0;
 		
 		std::string rgo = "";
+                std::string identifier = "";
 };
 
 }
