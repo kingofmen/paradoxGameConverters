@@ -169,7 +169,7 @@ Vic2::Province::Province(const std::string& numberString, std::istream& theStrea
 	registerKeyword(std::regex("rgo"), commonItems::ignoreItem);
 
 	parseStream(theStream);
-        identifier = name + " (" + std::toString(number) + ")";
+        identifier = name + " (" + std::to_string(number) + ")";
 }
 
 
