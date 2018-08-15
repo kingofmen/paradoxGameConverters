@@ -140,6 +140,7 @@ Vic2::Province::Province(const std::string& numberString, std::istream& theStrea
 			rgo = rgo.substr(1, rgo.size() - 2);
 		}
 	});
+        registerKeyword(std::regex("name"),  [this](const std::string& unused, std::istream& theStream)
 	{
 		commonItems::singleString nameString(theStream);
 		name = nameString.getString();
@@ -168,9 +169,7 @@ Vic2::Province::Province(const std::string& numberString, std::istream& theStrea
 	registerKeyword(std::regex("rgo"), commonItems::ignoreItem);
 
 	parseStream(theStream);
-        char buffer[1000];
-        sprintf(buffer, "%s (%i)", name.c_str(), number);
-        identifier = buffer;
+        identifier = name + " (" + std::toString(number) + ")";
 }
 
 
