@@ -139,7 +139,8 @@ Vic2::Province::Province(const std::string& numberString, std::istream& theStrea
 		{
 			rgo = rgo.substr(1, rgo.size() - 2);
 		}
-	});														    registerKeyword(std::regex("name"),  [this](const std::string& unused, std::istream& theStream)
+	});
+        registerKeyword(std::regex("name"),  [this](const std::string& unused, std::istream& theStream)
 	{
 		commonItems::singleString nameString(theStream);
 		name = nameString.getString();
@@ -147,8 +148,8 @@ Vic2::Province::Province(const std::string& numberString, std::istream& theStrea
 		{
                         name = name.substr(1, name.size() - 2);
                 }
-	});																								  
-
+	});
+        
 	// ignored items
 	registerKeyword(std::regex("controller"), commonItems::ignoreItem);
 	registerKeyword(std::regex("garrison"), commonItems::ignoreItem);
