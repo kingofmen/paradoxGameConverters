@@ -14,7 +14,7 @@
 						<description>Vic2 mods to use for conversion (mods require manual conversion)</description>
 						<hasDirectlyEditableValue>true</hasDirectlyEditableValue>
 						<useCurlyBraces>true</useCurlyBraces>
-						<value></value>
+						<value>ODAOP_1821_end</value>
 					</preference>
 					<preference>
 						<name>HoI4VersionMethod</name>
@@ -25,7 +25,7 @@
 								<name>hardcoded</name>
 								<friendlyName>Hard Coded (1.5.3)</friendlyName>
 								<description>Use the HoI4 version hard coded into the converter (1.5.3)</description>
-								<isDefault>true</isDefault>
+								<isDefault>false</isDefault>
 							</entryOption>
 							<entryOption>
 								<name>automatic</name>
@@ -37,7 +37,7 @@
 								<name>manualEntry</name>
 								<friendlyName>Manual Entry</friendlyName>
 								<description>Manually enter the HoI4 version</description>
-								<isDefault>false</isDefault>
+								<isDefault>true</isDefault>
 							</entryOption>
 					  </entryOptions>
 					</preference>
@@ -46,7 +46,7 @@
 						<friendlyName>HoI4 Version</friendlyName>
 						<description>If manually entering the HoI4 version, set this to the desired version</description>
 						<hasDirectlyEditableValue>true</hasDirectlyEditableValue>
-						<value>1.5.3</value>
+						<value>1.5.4</value>
 					</preference>
 					<preference>
 						<name>industrial_shape_factor</name>

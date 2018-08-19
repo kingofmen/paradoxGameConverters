@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!--
 Explanation: TODO:
@@ -655,7 +655,7 @@ tag vs internalTag:
           <alternatives>
             <alternative>
               <defaultLocationType>WindowsUsersFolder</defaultLocationType>
-              <subFolderLocation>Paradox Interactive\Victoria II\save games</subFolderLocation>
+              <subFolderLocation>Paradox Interactive\Victoria II\ODAOP_1821_end\save games\IBPA_1904_bugfix.v2</subFolderLocation>
             </alternative>
           </alternatives>
         </requiredFile>
