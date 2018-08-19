@@ -1,0 +1,8 @@
+state_categories={
+	heaven = {
+		local_building_slots = 16
+	
+			color = { 80 240 240 }
+
+	}
+}
