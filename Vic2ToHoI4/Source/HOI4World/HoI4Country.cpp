@@ -461,7 +461,7 @@ void HoI4Country::convertConvoys(const map<string, HoI4::UnitMap>& unitMap)
 
 void HoI4Country::convertAirforce(const map<string, HoI4::UnitMap>& unitMap)
 {
-	for (auto army : srcCountry->getArmies())
+        for (auto army : srcCountry->getArmies())
 	{
 		for (auto regiment : army->getRegiments())
 		{
@@ -492,12 +492,19 @@ void HoI4Country::convertArmyDivisions(const map<string, HoI4::UnitMap>& unitMap
 	}
 
 	map<string, int> BattalionsAndCompanies;
+        map<string, int> vicRegiments;
+        static map<string, bool> infoPrinted;
 
 	for (auto army : srcCountry->getArmies())
 	{
 		for (auto regiment : army->getRegiments())
 		{
-			string type = regiment->getType();
+                        if (regiment->isMobilised())
+                        {
+                                continue;
+                        }
+                        string type = regiment->getType();
+                        vicRegiments[type]++;
 
 			if (unitMap.count(type) > 0)
 			{
@@ -505,16 +512,34 @@ void HoI4Country::convertArmyDivisions(const map<string, HoI4::UnitMap>& unitMap
 
 				if (unitInfo.getCategory() == "land") {
 					// Calculate how many Battalions and Companies are available after mapping Vic2 armies
-					BattalionsAndCompanies[unitInfo.getType()] = BattalionsAndCompanies[unitInfo.getType()] + unitInfo.getSize();
-				}
-			}
+					BattalionsAndCompanies[unitInfo.getType()] += unitInfo.getSize();
+                                        if (!infoPrinted[unitInfo.getType()])
+                                        {
+                                                infoPrinted[unitInfo.getType()] = true;
+                                                LOG(LogLevel::Info)
+                                                    << "Unit type "
+                                                    << unitInfo.getType()
+                                                    << " has size "
+                                                    << unitInfo.getSize();
+                                        }
+                                }
+                        }
 			else
 			{
 				LOG(LogLevel::Warning) << "Unknown unit type: " << type;
 			}
 		}
 	}
-		
+        LOG(LogLevel::Info) << srcCountry->getIdentifier() << " has Vic regiments:";
+        for (const auto& vr : vicRegiments) {
+                LOG(LogLevel::Info) << "  " << vr.first << " = " << vr.second;
+        }
+        LOG(LogLevel::Info) << srcCountry->getIdentifier() << " has HoI components:";
+        for (const auto& bc : BattalionsAndCompanies) {
+                LOG(LogLevel::Info) << "  " << bc.first << " = " << bc.second;
+        }
+
+        map<string, int> createdDivs;
 	for (auto& divTemplate: divisionTemplates)
 	{
 		// for each template determine the Battalion and Company requirements
@@ -543,12 +568,13 @@ void HoI4Country::convertArmyDivisions(const map<string, HoI4::UnitMap>& unitMap
 		while (sufficientUnits == true) 
 		{
 			HoI4::DivisionType newDivision(to_string(divisionCounter) + ". " + divTemplate.getName(), divTemplate.getName(), capitalState->getVPLocation());
-			divisionCounter = divisionCounter + 1;
+			divisionCounter++;
 			divisions.push_back(newDivision);
+                        createdDivs[divTemplate.getName()]++;
 
-			for (auto unit : templateRequirements)
+			for (auto& unit : templateRequirements)
 			{
-				BattalionsAndCompanies[unit.first] = BattalionsAndCompanies[unit.first] - unit.second;
+				BattalionsAndCompanies[unit.first] -= unit.second;
 			}
 
 			sufficientUnits = true;
@@ -560,7 +586,11 @@ void HoI4Country::convertArmyDivisions(const map<string, HoI4::UnitMap>& unitMap
 				}
 			}
 		}	
-	}	
+	}
+        LOG(LogLevel::Info) << srcCountry->getIdentifier() << " gets divisions:";
+        for (const auto& cd : createdDivs) {
+                LOG(LogLevel::Info) << "  " << cd.first << " = " << cd.second;
+        }
 
 	/*
 	// get the total number of source brigades and the number of source brigades per location
