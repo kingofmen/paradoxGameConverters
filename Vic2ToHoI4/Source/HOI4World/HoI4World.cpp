@@ -942,7 +942,7 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 
 	templateList.push_back(motorizedTemplate);
 
-	HoI4::DivisionTemplateType assaultDivTemplate("Assault Division");
+	HoI4::DivisionTemplateType assaultDivTemplate("Heavy Division");
 
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("infantry", 0, 0));
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("infantry", 0, 1));
@@ -959,8 +959,6 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 3, 0));
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 3, 1));
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 3, 2));
-
-	assaultDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 4, 0));
 
 	templateList.push_back(assaultDivTemplate);
 
