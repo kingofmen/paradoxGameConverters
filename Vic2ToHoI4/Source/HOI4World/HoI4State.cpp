@@ -494,7 +494,7 @@ void HoI4::State::addManpower()
 
 		if (provinceIsInState)
 		{
-			manpower += static_cast<int>(sourceProvince->getTotalPopulation() * 4 * theConfiguration.getManpowerFactor());
+			manpower += static_cast<int>(sourceProvince->getTotalPopulation() * 1 * theConfiguration.getManpowerFactor());
 		}
 	}
 }
@@ -513,7 +513,7 @@ void HoI4::State::convertIndustry(double workerFactoryRatio, const HoI4::stateCa
 
 int HoI4::State::determineFactoryNumbers(double workerFactoryRatio)
 {
-	double rawFactories = sourceState->getEmployedWorkers() * 0.4 * workerFactoryRatio;
+	double rawFactories = sourceState->getEmployedWorkers() * 0.1 * workerFactoryRatio;
 	rawFactories = round(rawFactories);
 	return constrainFactoryNumbers(rawFactories);
 }
@@ -523,7 +523,7 @@ int HoI4::State::constrainFactoryNumbers(double rawFactories)
 {
 	int factories = static_cast<int>(rawFactories);
 
-	int upperLimit = 12;
+	int upperLimit = 15;
 
 	if (factories < 0)
 	{
@@ -541,16 +541,19 @@ int HoI4::State::constrainFactoryNumbers(double rawFactories)
 void HoI4::State::determineCategory(int factories, const HoI4::stateCategories& theStateCategories)
 {
 	int population = sourceState->getPopulation();
-	int stateSlots = population / 300000;
-	if (capitalState)
-	{
-		factories++;
-		stateSlots++;
-		stateSlots++;
-	}
+	int stateSlots = population / 750000;
 	if (factories >= stateSlots + 2)
 	{
 		stateSlots = factories + 2;
+	}
+	if (capitalState)
+	{
+		factories++;
+		factories++;
+		stateSlots++;
+		stateSlots++;
+		stateSlots++;
+		stateSlots++;
 	}
 
 	category = theStateCategories.getBestCategory(stateSlots);
@@ -560,7 +563,7 @@ void HoI4::State::determineCategory(int factories, const HoI4::stateCategories& 
 void HoI4::State::setInfrastructure(int factories)
 {
 	infrastructure = 3;
-	infrastructure += sourceState->getAverageRailLevel() / 2;
+	infrastructure += sourceState->getAverageRailLevel() - 2;
 
 	oil       = sourceState->getRgo(Vic2::State::kOil);
 	rubber    = sourceState->getRgo(Vic2::State::kRubber);
@@ -569,16 +572,15 @@ void HoI4::State::setInfrastructure(int factories)
         tungsten  = sourceState->getRgo(Vic2::State::kTungsten);
 	chromium  = sourceState->getRgo(Vic2::State::kChromium);
 
-	if (factories > 4)
+	if (capitalState)
 	{
+		oil = oil + 4;
+		rubber = rubber + 4;
+		aluminium = aluminium + 4;
+		steel = steel + 8;
+		tungsten = tungsten + 4;
+		chromium = chromium + 4;
 		infrastructure++;
-	}
-	if (factories > 6)
-	{
-		infrastructure++;
-	}
-	if (factories > 10)
-	{
 		infrastructure++;
 	}
 }
