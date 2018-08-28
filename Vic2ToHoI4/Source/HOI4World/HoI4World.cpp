@@ -848,22 +848,22 @@ map<string, HoI4::UnitMap> HoI4::World::importUnitMap() const
 
 	unitMap["infantry"] = HoI4::UnitMap("land","infantry","infantry_equipment_0",3);
 	unitMap["regular"] = HoI4::UnitMap("land","infantry","infantry_equipment_0",3);
-	unitMap["engineer"] = HoI4::UnitMap("land", "infantry", "infantry_equipment_0", 3);
-	unitMap["guard"] = HoI4::UnitMap("land", "infantry", "infantry_equipment_0", 3);
+	unitMap["engineer"] = HoI4::UnitMap("land", "motorized", "infantry_equipment_0", 2);
+	unitMap["guard"] = HoI4::UnitMap("land", "motorized", "infantry_equipment_0", 2);
 	unitMap["specops"] = HoI4::UnitMap("land", "infantry", "infantry_equipment_0", 3);
 
 	unitMap["artillery"] = HoI4::UnitMap("land", "artillery_brigade", "artillery_equipment_1", 3);
 	unitMap["horse_artillery"] = HoI4::UnitMap("land", "artillery_brigade", "artillery_equipment_1", 3);
 
-	unitMap["cavalry"] = HoI4::UnitMap();
+	unitMap["cavalry"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 3);
 
-	unitMap["hussar"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 3);
-	unitMap["cuirassier"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 3);
-	unitMap["dragoon"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 3);
+	unitMap["hussar"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 4);
+	unitMap["cuirassier"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 4);
+	unitMap["dragoon"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 5);
 
 	unitMap["tank"] = HoI4::UnitMap("land", "light_armor", "gw_tank_equipment", 1);
 
-	unitMap["plane"] = HoI4::UnitMap("air", "fighter", "fighter_equipment_0", 20);
+	unitMap["plane"] = HoI4::UnitMap("air", "fighter", "fighter_equipment_0", 10);
 	unitMap["bomber"] = HoI4::UnitMap("air", "tac_bomber", "tac_bomber_equipment_0", 20);
 	unitMap["transport_plane"] = HoI4::UnitMap("air", "transport_plane", "transport_plane_equipment_0", 20);
 
@@ -905,7 +905,7 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 	armoredTemplate.addSupportRegiment(HoI4::RegimentType("artillery",0,0));
 
 	templateList.push_back(armoredTemplate);
-
+        /*
 	HoI4::DivisionTemplateType mechanizedTemplate("Mechanized Division");
 
 	mechanizedTemplate.addRegiment(HoI4::RegimentType("light_armor", 0, 0));
@@ -923,6 +923,22 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 	mechanizedTemplate.addSupportRegiment(HoI4::RegimentType("artillery", 0, 0));
 
 	templateList.push_back(mechanizedTemplate);
+        */
+	HoI4::DivisionTemplateType lightArmDivTemplate("Light Armoured Division");
+
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 0, 0));
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 0, 1));
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 0, 2));
+
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 1, 0));
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 1, 1));
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("light_armor", 1, 2));
+
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("motorized", 2, 0));
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("motorized", 2, 1));
+	lightArmDivTemplate.addRegiment(HoI4::RegimentType("motorized", 2, 2));
+
+	templateList.push_back(lightArmDivTemplate);
 
 	HoI4::DivisionTemplateType motorizedTemplate("Motorized Division");
 
@@ -942,6 +958,16 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 
 	templateList.push_back(motorizedTemplate);
 
+        HoI4::DivisionTemplateType lightArmBrigTemplate("Armour Brigade");
+
+	lightArmBrigTemplate.addRegiment(HoI4::RegimentType("light_armor", 0, 0));
+	lightArmBrigTemplate.addRegiment(HoI4::RegimentType("light_armor", 0, 1));
+
+	lightArmBrigTemplate.addRegiment(HoI4::RegimentType("light_armor", 1, 0));
+	lightArmBrigTemplate.addRegiment(HoI4::RegimentType("light_armor", 1, 1));
+
+	templateList.push_back(lightArmBrigTemplate);
+
 	HoI4::DivisionTemplateType assaultDivTemplate("Heavy Division");
 
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("infantry", 0, 0));
@@ -959,6 +985,8 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 3, 0));
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 3, 1));
 	assaultDivTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 3, 2));
+
+	assaultDivTemplate.addSupportRegiment(HoI4::RegimentType("artillery", 0, 0));
 
 	templateList.push_back(assaultDivTemplate);
 
@@ -1051,6 +1079,22 @@ vector<HoI4::DivisionTemplateType> HoI4::World::importDivisionTemplates() const
 	cavalryBrigadeTemplate.addRegiment(HoI4::RegimentType("cavalry", 0, 2));
 
 	templateList.push_back(cavalryBrigadeTemplate);
+
+        HoI4::DivisionTemplateType artyBrigTemplate("Artillery Brigade");
+
+	artyBrigTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 0, 0));
+	artyBrigTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 0, 1));
+	artyBrigTemplate.addRegiment(HoI4::RegimentType("artillery_brigade", 0, 2));
+
+	templateList.push_back(artyBrigTemplate);
+
+        HoI4::DivisionTemplateType motorBrigTemplate("Motorized Brigade");
+
+	motorBrigTemplate.addRegiment(HoI4::RegimentType("motorized", 0, 0));
+	motorBrigTemplate.addRegiment(HoI4::RegimentType("motorized", 0, 1));
+	motorBrigTemplate.addRegiment(HoI4::RegimentType("motorized", 0, 2));
+
+	templateList.push_back(motorBrigTemplate);
 
 	return templateList;
 }
