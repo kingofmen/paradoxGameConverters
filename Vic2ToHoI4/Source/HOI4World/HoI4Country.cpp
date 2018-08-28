@@ -537,7 +537,17 @@ void HoI4Country::convertArmyDivisions(const map<string, HoI4::UnitMap>& unitMap
 			}
 		}
 	}
+        LOG(LogLevel::Info) << srcCountry->getIdentifier() << " has Vic regiments:";
+        for (const auto& vr : vicRegiments) {
+                LOG(LogLevel::Info) << "  " << vr.first << " = " << vr.second;
+        }
+        LOG(LogLevel::Info) << srcCountry->getIdentifier() << " has HoI components:";
+        for (const auto& bc : BattalionsAndCompanies) {
+                LOG(LogLevel::Info) << "  " << bc.first << " = " << bc.second;
+        }
 
+        map<string, int> createdDivs;
+        int totalDivCount = 0;
 	for (auto& divTemplate: divisionTemplates)
 	{
 		// For each template determine the Battalion and Company requirements.
@@ -578,9 +588,43 @@ void HoI4Country::convertArmyDivisions(const map<string, HoI4::UnitMap>& unitMap
                                         }
                                 }
                         }
-                        divisionCounter++;
-                        divisions.push_back(newDivision);
+                        bool dropDivision = true;
+                        if (totalDivCount < 25)
+                        {
+                                dropDivision = false;
+                        }
+                        else if (totalDivCount < 100)
+                        {
+                                dropDivision = (totalDivCount % 3 != 0);
+                        }
+                        else
+                        {
+                                dropDivision = (totalDivCount % 5 != 0);
+                        }
+                        if (!dropDivision)
+                        {
+                                divisionCounter++;
+                                divisions.push_back(newDivision);
+                                createdDivs[divTemplate.getName()]++;
+                        }
+                        totalDivCount++;
                 }
+        }
+        LOG(LogLevel::Info)
+            << srcCountry->getIdentifier() << " gets divisions:";
+        for (const auto& cd : createdDivs)
+        {
+                LOG(LogLevel::Info) << "  " << cd.first << " = " << cd.second;
+        }
+        LOG(LogLevel::Info)
+            << srcCountry->getIdentifier() << " has leftover components:";
+        for (const auto& bc : BattalionsAndCompanies)
+        {
+                if (bc.second == 0)
+                {
+                        continue;
+                }
+                LOG(LogLevel::Info) << "  " << bc.first << " = " << bc.second;
         }
 
         /*
