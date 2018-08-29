@@ -2715,8 +2715,8 @@
 	link = { vic2 = 1147 hoi4 = 5029 hoi4 = 2000 hoi4 = 1957 }	# Mashhad -> land, land, land, land, land
 	link = { vic2 = 3352 hoi4 = 10806 hoi4 = 1888 }	# Mashhad -> land, land, land, land, land
 	link = { vic2 = 1148 hoi4 = 10890 hoi4 = 7990 hoi4 = 10759 hoi4 = 12852 hoi4 = 10873 hoi4 = 12739 }	# Birjand -> land, land, land, land, land, land
-	link = { vic2 = 1149 hoi4 = 12748 hoi4 = 11671 }	# Sabzevar -> land, land, land, land, land
-	link = { vic2 = 3277 hoi4 = 8009 hoi4 = 5073 }	# Sabzevar -> land, land, land, land, land
+	link = { vic2 = 3277 hoi4 = 12748 hoi4 = 11671 }	# Sabzevar -> land, land, land, land, land
+	link = { vic2 = 1149 hoi4 = 8009 hoi4 = 5073 }	# Sabzevar -> land, land, land, land, land
 	link = { vic2 = 3278 hoi4 = 7573 }	# Sabzevar -> land, land, land, land, land
 	link = { vic2 = 1150 hoi4 = 10351 hoi4 = 1521 }	# Bojnurd -> land, land
 	# # Kerman
@@ -2868,7 +2868,7 @@
 	link = { vic2 = 1297 hoi4 = 1349 hoi4 = 12269 }	# Bombay -> land, land
 	link = { vic2 = 1298 hoi4 = 4072 hoi4 = 10019 hoi4 = 7177 hoi4 = 7205 hoi4 = 11993 }	# Nasik -> land, land, land, land, land
 	link = { vic2 = 1299 hoi4 = 12182 hoi4 = 4353 hoi4 = 10270 hoi4 = 1405 hoi4 = 7119 }	# Poona -> land, land, land, land, land
-	link = { vic2 = 1300 hoi4 = 7411 hoi4 = 12295 hoi4 = 12142 }	# Bijapur -> land, land, land
+	link = { vic2 = 1300 hoi4 = 12295 hoi4 = 12142 }	# Bijapur -> land, land, land
 	link = { vic2 = 1301 hoi4 = 10210 hoi4 = 7232 hoi4 = 4395 }	# Kolhapur -> land, land, land
 	link = { vic2 = 1303 hoi4 = 1273 }	# Goa -> land
 	# # Mysore
@@ -2902,8 +2902,8 @@
 	link = { vic2 = 1284 hoi4 = 10311 hoi4 = 7060 hoi4 = 5063 }	# Aurangabad -> land, land, land
 	link = { vic2 = 1285 hoi4 = 5019 hoi4 = 11950 hoi4 = 10511 hoi4 = 12226 }	# Nizamabad -> land, land, land, land
 	link = { vic2 = 1286 hoi4 = 5104 hoi4 = 10324 hoi4 = 1359 }	# Gulbarga -> land, land, land, land, land
-	link = { vic2 = 3303 hoi4 = 10259 }	# Gulbarga -> land, land, land, land, land
-	link = { vic2 = 3304 hoi4 = 10799 }	# Gulbarga -> land, land, land, land, land
+	link = { vic2 = 3304 hoi4 = 10259 }	# Gulbarga -> land, land, land, land, land
+	link = { vic2 = 3303 hoi4 = 10799 hoi4 = 7411  }	# Gulbarga -> land, land, land, land, land
 	link = { vic2 = 1287 hoi4 = 12114 hoi4 = 4280 hoi4 = 1275 hoi4 = 4472 }	# Warangal -> land, land, land, land
 	# # Circars
 	link = { vic2 = 1279 hoi4 = 7465 hoi4 = 1622 hoi4 = 12490 hoi4 = 10469 hoi4 = 7428 }	# Jagdalpur -> land, land, land, land, land
