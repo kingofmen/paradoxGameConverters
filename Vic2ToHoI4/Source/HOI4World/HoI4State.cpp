@@ -513,7 +513,7 @@ void HoI4::State::convertIndustry(double workerFactoryRatio, const HoI4::stateCa
 
 int HoI4::State::determineFactoryNumbers(double workerFactoryRatio)
 {
-	double rawFactories = sourceState->getEmployedWorkers() * 0.1 * workerFactoryRatio;
+	double rawFactories = sourceState->getEmployedWorkers() * 0.125 * workerFactoryRatio;
 	rawFactories = round(rawFactories);
 	return constrainFactoryNumbers(rawFactories);
 }
@@ -541,7 +541,7 @@ int HoI4::State::constrainFactoryNumbers(double rawFactories)
 void HoI4::State::determineCategory(int factories, const HoI4::stateCategories& theStateCategories)
 {
 	int population = sourceState->getPopulation();
-	int stateSlots = population / 750000;
+	int stateSlots = population / 500000;
 	if (factories >= stateSlots + 2)
 	{
 		stateSlots = factories + 2;
@@ -593,17 +593,17 @@ void HoI4::State::setIndustry(int factories, const coastalProvinces& theCoastalP
 	if (amICoastal(theCoastalProvinces))
 	{
 		// distribute military factories, civilian factories, and dockyards using unseeded random
-		//		20% chance of dockyard
-		//		57% chance of civilian factory
-		//		23% chance of military factory
+		//		20% chance of dockyard #18%
+		//		57% chance of civilian factory #55%
+		//		23% chance of military factory #27%
 		for (int i = 0; i < factories; i++)
 		{
 			double randomNum = numberDistributor(randomnessEngine);
-			if (randomNum > 76)
+			if (randomNum > 72)
 			{
 				milFactories++;
 			}
-			else if (randomNum > 19)
+			else if (randomNum > 18)
 			{
 				civFactories++;
 			}
@@ -617,12 +617,12 @@ void HoI4::State::setIndustry(int factories, const coastalProvinces& theCoastalP
 	{
 		// distribute military factories, civilian factories, and dockyards using unseeded random
 		//		 0% chance of dockyard
-		//		71% chance of civilian factory
-		//		29% chance of military factory
+		//		71% chance of civilian factory #67%
+		//		29% chance of military factory #33%
 		for (int i = 0; i < factories; i++)
 		{
 			double randomNum = numberDistributor(randomnessEngine);
-			if (randomNum > 70)
+			if (randomNum > 66)
 			{
 				milFactories++;
 			}
