@@ -846,24 +846,24 @@ map<string, HoI4::UnitMap> HoI4::World::importUnitMap() const
 
 	unitMap["irregular"] = HoI4::UnitMap();
 
-	unitMap["infantry"] = HoI4::UnitMap("land","infantry","infantry_equipment_0",3);
-	unitMap["regular"] = HoI4::UnitMap("land","infantry","infantry_equipment_0",3);
-	unitMap["engineer"] = HoI4::UnitMap("land", "motorized", "infantry_equipment_0", 2);
-	unitMap["guard"] = HoI4::UnitMap("land", "motorized", "infantry_equipment_0", 2);
+	unitMap["infantry"] = HoI4::UnitMap("land","infantry","infantry_equipment_0",5); // 250 prod value
+        unitMap["regular"] = HoI4::UnitMap("land","infantry","infantry_equipment_0", 5); // 250 prod value
+        unitMap["engineer"] = HoI4::UnitMap("land", "motorized", "infantry_equipment_0", 2); // 350 prod value
+        unitMap["guard"] = HoI4::UnitMap("land", "motorized", "infantry_equipment_0", 2); // 350 prod value
 	unitMap["specops"] = HoI4::UnitMap("land", "infantry", "infantry_equipment_0", 3);
 
-	unitMap["artillery"] = HoI4::UnitMap("land", "artillery_brigade", "artillery_equipment_1", 3);
+	unitMap["artillery"] = HoI4::UnitMap("land", "artillery_brigade", "artillery_equipment_1", 3); // 375 prod value
 	unitMap["horse_artillery"] = HoI4::UnitMap("land", "artillery_brigade", "artillery_equipment_1", 3);
 
-	unitMap["cavalry"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 3);
+	unitMap["cavalry"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 4); // 200 prod value
 
-	unitMap["hussar"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 4);
-	unitMap["cuirassier"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 4);
-	unitMap["dragoon"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 5);
+	unitMap["hussar"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 6); // 300 prod value
+	unitMap["cuirassier"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 6); // 300 prod value
+	unitMap["dragoon"] = HoI4::UnitMap("land", "cavalry", "infantry_equipment_0", 6); // 300 prod value
 
 	unitMap["tank"] = HoI4::UnitMap("land", "light_armor", "gw_tank_equipment", 1);
 
-	unitMap["plane"] = HoI4::UnitMap("air", "fighter", "fighter_equipment_0", 10);
+	unitMap["plane"] = HoI4::UnitMap("air", "fighter", "fighter_equipment_0", 15); // 360 prod value
 	unitMap["bomber"] = HoI4::UnitMap("air", "tac_bomber", "tac_bomber_equipment_0", 20);
 	unitMap["transport_plane"] = HoI4::UnitMap("air", "transport_plane", "transport_plane_equipment_0", 20);
 
