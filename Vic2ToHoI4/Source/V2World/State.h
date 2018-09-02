@@ -73,7 +73,8 @@ class State: commonItems::parser
           int getAverageRailLevel() const;
 
           void setRgo();
-          int getRgo(int res) const { return rgos[res]; }
+          void consolidateRgo(State* other, int res);
+          int getRgo(int res) const { return (int) floor(0.5 + rgos[res]); }
 
           void addProvince(const Province* province)
           {
@@ -110,7 +111,7 @@ class State: commonItems::parser
 
 		int factoryLevel = 0;
 		int employedWorkers = 0;
-                std::vector<int> rgos;
+                std::vector<double> rgos;
 };
 
 }  // namespace Vic2

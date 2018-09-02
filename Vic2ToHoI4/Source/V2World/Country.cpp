@@ -254,6 +254,46 @@ void Vic2::Country::putProvincesInStates()
 		}
                 state->setRgo();
 	}
+
+        int numStates = states.size();
+        if (numStates > 200)
+        {
+                numStates /= 15;
+        }
+        else if (numStates > 100)
+        {
+                numStates /= 10;
+        }
+        else if (numStates > 50)
+        {
+                numStates /= 5;
+        }
+        else if (numStates > 20)
+        {
+                numStates /= 4;
+        }
+        else
+        {
+                numStates /= 3;
+        }
+        if (numStates < 2)
+        {
+                numStates = 2;
+        }
+        
+        vector<Vic2::State*> sorted_states = states;
+        for (int i = 0; i < Vic2::State::kNumResources; ++i)
+        {
+                std::sort(sorted_states.begin(), sorted_states.end(),
+                          [i](Vic2::State* one, Vic2::State* two) -> bool {
+                                  return (one->getRgo(i) > two->getRgo(i));
+                          });
+                for (int j = numStates; j < sorted_states.size(); ++j)
+                {
+                        sorted_states[j % numStates]->consolidateRgo(
+                            sorted_states[j], i);
+                }
+        }
 }
 
 

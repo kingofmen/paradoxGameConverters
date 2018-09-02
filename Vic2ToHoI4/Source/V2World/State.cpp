@@ -205,6 +205,12 @@ int Vic2::State::getAverageRailLevel() const
 	}
 }
 
+void Vic2::State::consolidateRgo(Vic2::State* other, int res)
+{
+        rgos[res] += other->rgos[res];
+        other->rgos[res] = 0;
+}
+
 
 void Vic2::State::setRgo()
 {
@@ -224,14 +230,14 @@ void Vic2::State::setRgo()
           {"tea", {{kRubber, 1.0}}},
           {"precious_metal", {{kAluminium, 5.0}}},
           {"opium", {{kAluminium, 1.0}}},
-          {"wool", {{kAluminium, 1.0}}},
-          {"dye", {{kTungsten, 5.0}}},
-          {"cotton", {{kTungsten, 1.0}}},
-          {"coffee", {{kTungsten, 0.5}}},
-          {"tobacco", {{kTungsten, 0.5}}},
+          {"wool", {{kAluminium, 1.4}}},
+          {"dye", {{kTungsten, 15.0}}},
+          {"cotton", {{kTungsten, 1.5}}},
+          {"coffee", {{kTungsten, 0.75}}},
+          {"tobacco", {{kTungsten, 0.75}}},
           {"sulphur", {{kChromium, 5.0}}},
-          {"fruit", {{kChromium, 0.5}}},
-          {"cattle", {{kChromium, 0.5}}},
+          {"fruit", {{kChromium, 0.6}}},
+          {"cattle", {{kChromium, 0.6}}},
         };
 	for (auto province: provinces)
 	{
@@ -250,11 +256,11 @@ void Vic2::State::setRgo()
                 LOG(LogLevel::Info)
                     << "Province " << province->getIdentifier() << " rgo "
                     << province->getRgo() << " population " << population
-                    << " steel " << weights[kSteel];
+                    << " aluminium " << weights[kAluminium];
         }
 
         for (int i = 0; i < kNumResources; ++i)
         {
-                rgos[i] = (int)floor(0.5 + weights[i] * kAdjust[i]);
+                rgos[i] = weights[i] * kAdjust[i];
         }
 }
