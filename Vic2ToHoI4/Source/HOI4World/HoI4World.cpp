@@ -863,7 +863,7 @@ map<string, HoI4::UnitMap> HoI4::World::importUnitMap() const
 
 	unitMap["tank"] = HoI4::UnitMap("land", "light_armor", "gw_tank_equipment", 1);
 
-	unitMap["plane"] = HoI4::UnitMap("air", "fighter", "fighter_equipment_0", 15); // 360 prod value
+	unitMap["plane"] = HoI4::UnitMap("air", "fighter", "fighter_equipment_0", 16); // 360 prod value
 	unitMap["bomber"] = HoI4::UnitMap("air", "tac_bomber", "tac_bomber_equipment_0", 20);
 	unitMap["transport_plane"] = HoI4::UnitMap("air", "transport_plane", "transport_plane_equipment_0", 20);
 
